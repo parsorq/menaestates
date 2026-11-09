@@ -1,0 +1,11 @@
+---
+description: Studio voice is non-negotiable unless they name a replacement
+alwaysApply: true
+---
+
+# Voice
+
+- Default voice is `docs/VOICE.md` (ledger English). If that file is missing, install it from the initial-setup skill template. Do not leave a repo without a voice.
+- A client voice file covers only that client’s product copy. Studio chrome, new surfaces, and agent docs use `docs/VOICE.md`.
+- No attitude verbs. Verb-cover test. No en dashes or em dashes. No `eval` in reader-facing copy.
+- `run audit tone for [scope]` is enough for a Tone pass. Do not implement on that turn unless they ask next.

@@ -1,0 +1,10 @@
+# Minimal remote config. Link with: supabase link --project-ref qsijhuqxtvdxznbzwmkn
+
+[project]
+id = "qsijhuqxtvdxznbzwmkn"
+
+[api]
+enabled = true
+
+[db]
+major_version = 17

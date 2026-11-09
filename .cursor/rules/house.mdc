@@ -1,0 +1,13 @@
+---
+description: House treatment, visuals, doors — studio internals apply here
+alwaysApply: true
+---
+
+# House
+
+- House material is the answer-block field. Named references: Readings and Acceso. White field, charcoal type, hairline restraint, teal only for the real action.
+- Do not use leftover directory chrome (heading-1, ChromeContentBand, claim/doors directory).
+- Principles first: HIG, accessibility, dignified and clear. Structure before decoration.
+- Doors are named roles and Acceso rooms, not a service menu. Visible Acceso copy does not say door or puerta as the place name.
+- v0.5: do not fake a full marketing site on the name only. Still design the next surface to **forge house**.
+- **Forge house SSOT:** `/Users/navszt/forge/docs/standards/LANDING_VISUALS.md`, `GATEWAY_UX.md`, `HOUSE_AUDIT.md`, `/Users/navszt/forge/docs/product/DESIGN_AND_PRODUCT_PRINCIPLES.md`. Craft floor: `/Users/navszt/forge/docs/standards/DESIGN_CRAFT.md`, else `~/.cursor/operator/design-craft.md`. Audit: `/Users/navszt/forge/.cursor/skills/house-audit/SKILL.md`. `run house audit` when they ask.

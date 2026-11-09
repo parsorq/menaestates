@@ -1,0 +1,50 @@
+---
+description: Mandatory studio craft floor on every guest-facing UI implement pass (not audit-only)
+alwaysApply: true
+---
+
+# Delivered UI craft (implement mandatory)
+
+Applies to **every repo** when the pass changes **guest- or buyer-facing UI**: marketing routes, demos, checkout, landing, informe shells visible to clients, and equivalent `app/(marketing)/**` or product guest surfaces.
+
+A question is not this pass. If they did not ask you to change the UI or run an audit, stop. Do not read the craft files to defend the current screen. Answer under **`think-vs-ship.mdc`** Questions.
+
+**Panel** passes use **`panel-delivered-ui.mdc`** instead of (or in addition to) this rule when scope is `/admin` or admin components.
+
+**Not optional.** Audits (`rooms audit for`, `interactive affordance audit for`, `display audit for`) report the same bar; implement passes must **read and apply** it without the operator naming Emil, Impeccable, or Taste.
+
+## Resolve craft SSOT (read once per implement pass)
+
+1. Repo `docs/standards/DELIVERED_UI.md` when present (project DoD + pointers).
+2. **Forge hub:** `/Users/navszt/forge/docs/standards/DESIGN_CRAFT.md`.
+3. Else **`~/.cursor/operator/design-craft.md`**.
+
+**Canvas (gates + air):** `display-gates.mdc` resolve chain on every layout or inset change (guest or Panel).
+
+Studio SSOT edits belong in **`/Users/navszt/forge/docs/standards/`** (`DESIGN_CRAFT.md`, `DISPLAY_GATES.md`, and related basenames); mirror `~/.cursor/operator/` in the same pass.
+
+## Before edit (with agent-pass-discipline)
+
+Add to **Standards read** in chat when scope is delivered UI:
+
+- Craft SSOT (path used)
+- Repo blueprint / `DELIVERED_UI.md` when present
+- `~/.cursor/skills/rooms-audit/SKILL.md` beats for **job** and **constraints** (place, not template layout)
+
+**Frozen** may include brand tokens and copy facts. **Composition** (hero pattern, wizard chrome, slop patterns) is not frozen unless the operator explicitly freezes it this turn.
+
+## Before calling the pass done
+
+Self-check against craft **§ Anti-slop**, **§ Layout**, **§ Motion** (and **§ Copy slop** when copy changed). If any item in scope would FAIL, fix in this pass or stop and report the conflict. Do not ship known slop because the task did not say "audit." **Severity traffic-light rows** (tinted header band + colored rail + uppercase severity on read-only ranked lines) are automatic fail per craft § Anti-slop.
+
+**Reading measure (§ Type floor):** Prose paragraphs and answer-first leads use `var(--reading-measure)` or `.vc-reading-measure`. Shell max-width alone (`--content-standard`, `--content-wide`) is **FAIL** for narrative copy. Tables and scan blocks stay full width inside the shell.
+
+Demos and flagged prototypes (`SMR_PPI_DEMO`, v0.5 names) are **not** exempt.
+
+**Review lens:** When they ask for an audit, check **slug SSOT + forge craft floor**, not the implementation rulebook only (**`think-vs-ship.mdc`**). A question, including one with a screenshot, is not an audit. **`compliance only`** narrows an audit they asked for.
+
+## Precedence
+
+Operator instruction → repo blueprint / voice / tokens / INSTALL exception → **forge house** (`/Users/navszt/forge/docs/standards/LANDING_VISUALS.md`, `GATEWAY_UX.md` when adopted) → **DESIGN_CRAFT** → model default.
+
+Craft is **not** forge house chrome. Client brand colors stay; generic SaaS composition goes.

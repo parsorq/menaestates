@@ -1,0 +1,12 @@
+---
+description: Rooms, windows, jobs — studio rooms bar applies here
+alwaysApply: true
+---
+
+# Rooms
+
+- Design places, not screens. One job per room. Everything else is a door out.
+- Where am I? before components. Do not restate the H1 or the room type as the location signal.
+- Windows: one accent job, one primary action, real depth only. Headed containers: inset nests pad all four sides.
+- `rooms audit for [surface]` is enough. Do not implement on that turn unless they ask next.
+- Source: `~/.cursor/skills/rooms-audit/SKILL.md`. Layout rhythm: `/Users/navszt/forge/docs/standards/DESIGN_CRAFT.md` § Layout, else `~/.cursor/operator/design-craft.md`.
