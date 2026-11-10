@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { IBM_Plex_Sans, Newsreader } from "next/font/google";
 import { SITE_NAME } from "@/lib/brand";
 import { PAGE_SEO } from "@/lib/seo-metadata";
 import { getMetadataBase } from "@/lib/site";
 import "./globals.css";
 
-const display = Fraunces({
+const display = Newsreader({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Source_Sans_3({
+const body = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
   display: "swap",
 });

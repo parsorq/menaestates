@@ -22,10 +22,10 @@ const HOME_SEO: PageSeo = {
   path: "/",
   title: `${SITE_NAME} | East Bay cash home buyer`,
   description:
-    "Mena Estates buys houses for cash in Alameda and Contra Costa. Oakland, Berkeley, Hayward, Fremont, Concord, Walnut Creek, Richmond.",
+    "We buy houses for cash in Alameda and Contra Costa. Oakland, Berkeley, Hayward, Fremont, Concord, Walnut Creek, Richmond.",
   h1: "Sell your East Bay house for cash",
   answerFirst:
-    "Mena Estates buys as principal in Alameda and Contra Costa. Request a cash offer. An operator calls you. We close when the numbers work.",
+    "We buy as principal in Alameda and Contra Costa. Request a cash offer. An operator calls you. We close when the numbers work.",
 };
 
 function landerPageSeo(): Record<Exclude<SeoRouteKey, "home">, PageSeo> {

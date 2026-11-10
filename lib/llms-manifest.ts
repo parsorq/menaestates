@@ -6,7 +6,7 @@ import {
 import { PAGE_SEO, SEO_ROUTE_KEYS } from "./seo-metadata";
 import { absoluteSiteUrl } from "./site";
 
-export const LLM_MANIFEST_LEAD = `${SITE_NAME} buys houses for cash as principal in Alameda and Contra Costa (East Bay). Operator handles seller calls. Closing path runs with Mena after under contract.`;
+export const LLM_MANIFEST_LEAD = `${SITE_NAME}. We buy houses for cash as principal in Alameda and Contra Costa (East Bay). An operator handles seller calls. We own the exit after under contract.`;
 
 /** High-intent queries → existing indexable routes only. */
 export const LLM_CORE_QUERY_MAP: { query: string; path: string }[] = [

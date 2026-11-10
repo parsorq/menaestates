@@ -6,7 +6,7 @@ Cash home buyer for the East Bay. Principal language. Not an agent listing site.
 
 Write as an operating ledger. Lead with what exists, then stop. Work verbs only when required: buy, call, close, hand off, refuse. Do not use attitude verbs: help, empower, enable, believe, strive, offer-as-pitch, provide-as-pitch. One claim per clause. No throat-clearing. No sales theater.
 
-`We` is Mena Estates doing the work. Operator owns seller calls. Mena owns exit after under contract. Say that split plainly when the reader needs it.
+`We` is Mena Estates doing the work. Guest copy speaks in first person as Mena Estates. Do not narrate the brand in third person (`Mena Estates buys…`, `close with Mena`) on guest surfaces. Operator owns seller calls. We own the exit after under contract. Say that split plainly when the reader needs it.
 
 **Verb-cover test:** cover every verb. If the remaining nouns no longer tell who buys, where, and how someone enters, the copy is not done.
 

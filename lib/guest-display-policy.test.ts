@@ -30,4 +30,15 @@ describe("guest display policy", () => {
     expect(css).toMatch(/\.me-header-actions\s*\{[^}]*flex:\s*1\s+1\s+12rem/s);
     expect(css).toMatch(/\.me-btn\s*\{[^}]*white-space:\s*nowrap/s);
   });
+
+  it("insets own select chevron off the field edges", () => {
+    const selectBlock = css.match(/\.me-field select\s*\{[^}]*\}/);
+    expect(selectBlock?.[0] ?? "").toMatch(/appearance:\s*none/);
+    expect(selectBlock?.[0] ?? "").toMatch(
+      /background-position:\s*right\s+1rem\s+center/,
+    );
+    expect(selectBlock?.[0] ?? "").toMatch(
+      /padding-inline:\s*0\.75rem\s+2\.5rem/,
+    );
+  });
 });

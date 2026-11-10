@@ -72,11 +72,11 @@ export default function HomePage() {
               </li>
               <li>
                 <strong>Operator calls you</strong>
-                <p>We review numbers on your request. The lead stays with Mena.</p>
+                <p>We review numbers on your request. Your request stays with us.</p>
               </li>
               <li>
-                <strong>Close with Mena</strong>
-                <p>After under contract, Mena owns the exit with buyers and funding.</p>
+                <strong>We close</strong>
+                <p>After under contract, we own the exit with buyers and funding.</p>
               </li>
             </ol>
           </div>

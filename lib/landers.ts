@@ -31,10 +31,10 @@ export const LANDERS: LanderDefinition[] = [
     source: "lander-oakland",
     title: "Sell house fast Oakland",
     description:
-      "Mena Estates buys Oakland houses for cash as principal. Alameda County. Request a cash offer. An operator calls you.",
+      "We buy Oakland houses for cash as principal. Alameda County. Request a cash offer. An operator calls you.",
     h1: "Sell your Oakland house for cash",
     answerFirst:
-      "Mena Estates buys Oakland houses as principal in Alameda County. Request a cash offer. An operator calls you. No agent listing theater.",
+      "We buy Oakland houses as principal in Alameda County. Request a cash offer. An operator calls you. No agent listing theater.",
     asideTitle: "Oakland · Alameda County",
     asideBody:
       "Owner-occupied, vacant, and tenant houses in Oakland and nearby Alameda cities when the numbers work.",
@@ -52,10 +52,10 @@ export const LANDERS: LanderDefinition[] = [
     source: "lander-berkeley",
     title: "Sell house fast Berkeley",
     description:
-      "Mena Estates buys Berkeley houses for cash as principal. Alameda County. Request a cash offer. An operator calls you.",
+      "We buy Berkeley houses for cash as principal. Alameda County. Request a cash offer. An operator calls you.",
     h1: "Sell your Berkeley house for cash",
     answerFirst:
-      "Mena Estates buys Berkeley houses as principal in Alameda County. Request a cash offer. An operator calls you. Closing path runs with Mena after under contract.",
+      "We buy Berkeley houses as principal in Alameda County. Request a cash offer. An operator calls you. We own the exit after under contract.",
     asideTitle: "Berkeley · Alameda County",
     asideBody:
       "Same East Bay footprint and the same form used on every city page. Alameda and Contra Costa only.",
@@ -73,10 +73,10 @@ export const LANDERS: LanderDefinition[] = [
     source: "lander-inherited",
     title: "Sell inherited house East Bay",
     description:
-      "Mena Estates buys inherited houses for cash in Alameda and Contra Costa. Request a cash offer when the estate needs a clean exit.",
+      "We buy inherited houses for cash in Alameda and Contra Costa. Request a cash offer when the estate needs a clean exit.",
     h1: "Sell an inherited East Bay house for cash",
     answerFirst:
-      "Mena Estates buys inherited houses in Alameda and Contra Costa as principal. Request a cash offer. An operator calls you about timeline and title.",
+      "We buy inherited houses in Alameda and Contra Costa as principal. Request a cash offer. An operator calls you about timeline and title.",
     asideTitle: "Inherited · East Bay",
     asideBody:
       "Probate and estate exits stay on one callback path. We buy as principal when the house and numbers fit.",
@@ -94,10 +94,10 @@ export const LANDERS: LanderDefinition[] = [
     source: "lander-as-is",
     title: "Sell house as-is East Bay",
     description:
-      "Mena Estates buys East Bay houses as-is for cash in Alameda and Contra Costa. Condition stays on the table. Request a cash offer.",
+      "We buy East Bay houses as-is for cash in Alameda and Contra Costa. Condition stays on the table. Request a cash offer.",
     h1: "Sell your East Bay house as-is for cash",
     answerFirst:
-      "Mena Estates buys houses that need repairs in Alameda and Contra Costa as principal. Sell as-is when the condition is part of the deal. Request a cash offer.",
+      "We buy houses that need repairs in Alameda and Contra Costa as principal. Sell as-is when the condition is part of the deal. Request a cash offer.",
     asideTitle: "As-is · East Bay",
     asideBody:
       "Repairs, deferred maintenance, and tired rental stock stay in scope when the numbers work. No remodel theater before close.",

@@ -54,8 +54,8 @@ export function LanderPage({ lander }: LanderPageProps) {
                 <p>We review numbers and walk the path. No lead auction.</p>
               </li>
               <li>
-                <strong>Close with Mena</strong>
-                <p>After under contract, Mena owns the exit with buyers and funding.</p>
+                <strong>We close</strong>
+                <p>After under contract, we own the exit with buyers and funding.</p>
               </li>
             </ol>
           </div>
@@ -84,7 +84,7 @@ export function LanderPage({ lander }: LanderPageProps) {
             <div className="me-shell">
               <h2 id="related-title">Nearby pages</h2>
               <p className="me-section__intro vc-reading-measure">
-                Same buyer. Same form. Different city or situation.
+                We buy on every page. Same form. Different city or situation.
               </p>
               <ul className="me-city-list">
                 {related.map((entry) => (
