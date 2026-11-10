@@ -11,13 +11,30 @@ export const LLM_MANIFEST_LEAD = `${SITE_NAME}. We buy houses for cash as princi
 /** High-intent queries → existing indexable routes only. */
 export const LLM_CORE_QUERY_MAP: { query: string; path: string }[] = [
   { query: "cash home buyer East Bay", path: "/" },
+  {
+    query: "cities we buy in East Bay",
+    path: "/cities-we-buy-in-east-bay",
+  },
+  { query: "how we buy houses East Bay", path: "/how-we-buy" },
   { query: "sell house fast Oakland", path: "/sell-house-fast-oakland" },
   { query: "sell house fast Berkeley", path: "/sell-house-fast-berkeley" },
+  { query: "sell house fast Hayward", path: "/sell-house-fast-hayward" },
+  { query: "sell house fast Fremont", path: "/sell-house-fast-fremont" },
+  { query: "sell house fast Concord", path: "/sell-house-fast-concord" },
+  {
+    query: "sell house fast Walnut Creek",
+    path: "/sell-house-fast-walnut-creek",
+  },
+  { query: "sell house fast Richmond", path: "/sell-house-fast-richmond" },
   {
     query: "sell inherited house East Bay",
     path: "/sell-inherited-house-east-bay",
   },
   { query: "sell house as-is East Bay", path: "/sell-house-as-is-east-bay" },
+  {
+    query: "repair or sell as-is East Bay",
+    path: "/repair-or-as-is-east-bay",
+  },
 ];
 
 const AUX_SET = new Set<string>(LLM_MANIFEST_AUX_PATHS);

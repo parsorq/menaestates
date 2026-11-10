@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { JsonLd } from "@/app/components/JsonLd";
 import { SITE_NAME } from "@/lib/brand";
+import { organizationJsonLd, webSiteJsonLd } from "@/lib/schema";
 import { PAGE_SEO } from "@/lib/seo-metadata";
 import { getMetadataBase } from "@/lib/site";
 import "./globals.css";
@@ -39,7 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body>{children}</body>
+      <body>
+        <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
+        {children}
+      </body>
     </html>
   );
 }

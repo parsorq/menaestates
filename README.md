@@ -22,7 +22,7 @@ npm run dev
 ```
 
 - Marketing: `http://localhost:3000/`
-- Landers: `/sell-house-fast-oakland`, `/sell-house-fast-berkeley`, `/sell-inherited-house-east-bay`, `/sell-house-as-is-east-bay`
+- Landers: `/sell-house-fast-oakland`, `/sell-house-fast-berkeley`, `/sell-house-fast-hayward`, `/sell-house-fast-fremont`, `/sell-house-fast-concord`, `/sell-house-fast-walnut-creek`, `/sell-house-fast-richmond`, `/sell-inherited-house-east-bay`, `/sell-house-as-is-east-bay`
 - Ops: `http://localhost:3000/ops/leads` (Google at `/ops/login`; allowlist includes `parsorq@gmail.com`)
 
 ## Verify

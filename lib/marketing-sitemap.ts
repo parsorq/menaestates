@@ -7,10 +7,18 @@ export type MarketingSitemapEntry = { path: string; priority: number };
 
 const PRIORITY: Partial<Record<SeoRouteKey, number>> = {
   home: 1,
+  "cities-we-buy-in-east-bay": 0.95,
+  "how-we-buy": 0.92,
   "sell-house-fast-oakland": 0.9,
   "sell-house-fast-berkeley": 0.88,
+  "sell-house-fast-hayward": 0.87,
+  "sell-house-fast-fremont": 0.87,
+  "sell-house-fast-concord": 0.87,
+  "sell-house-fast-walnut-creek": 0.87,
+  "sell-house-fast-richmond": 0.87,
   "sell-inherited-house-east-bay": 0.86,
   "sell-house-as-is-east-bay": 0.86,
+  "repair-or-as-is-east-bay": 0.82,
 };
 
 function priorityForKey(key: SeoRouteKey): number {

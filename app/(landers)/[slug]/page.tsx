@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LanderPage } from "@/app/components/LanderPage";
+import { CityLanderPage } from "@/app/components/CityLanderPage";
+import { SituationLanderPage } from "@/app/components/SituationLanderPage";
 import { getLanderBySlug, landerSlugs } from "@/lib/landers";
 import { buildPageMetadata, type SeoRouteKey } from "@/lib/seo-metadata";
 
@@ -23,5 +24,11 @@ export default async function LanderRoutePage({ params }: PageProps) {
   const { slug } = await params;
   const lander = getLanderBySlug(slug);
   if (!lander) notFound();
-  return <LanderPage lander={lander} />;
+  if (lander.kind === "city") {
+    return <CityLanderPage lander={lander} />;
+  }
+  if (lander.kind === "situation") {
+    return <SituationLanderPage lander={lander} />;
+  }
+  notFound();
 }

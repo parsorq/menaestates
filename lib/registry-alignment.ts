@@ -1,4 +1,11 @@
 import { SITE_ORIGIN } from "./brand";
+import { cityRelatedLinks } from "./city-landers";
+import {
+  CITIES_HUB_PATH,
+  LANDERS,
+  cityLanders,
+  situationLanders,
+} from "./landers";
 import {
   LLM_CORE_QUERY_MAP,
   buildLlmsTxt,
@@ -10,6 +17,7 @@ import {
 } from "./marketing-sitemap";
 import { PAGE_SEO, SEO_ROUTE_KEYS, type SeoRouteKey } from "./seo-metadata";
 import { absoluteSiteUrl } from "./site";
+import { situationRelatedLinks } from "./situation-landers";
 
 export type RegistryAlignmentCheck = {
   id: string;
@@ -31,6 +39,145 @@ function pushCheck(
   checks.push({ id, pass, detail });
 }
 
+function evaluateCoreQueryUniqueness(checks: RegistryAlignmentCheck[]): void {
+  const queries = LLM_CORE_QUERY_MAP.map((row) => row.query);
+  const paths = LLM_CORE_QUERY_MAP.map((row) => row.path);
+  const uniqueQueries = new Set(queries);
+  const uniquePaths = new Set(paths);
+
+  pushCheck(
+    checks,
+    "core-query-unique",
+    uniqueQueries.size === queries.length,
+    uniqueQueries.size === queries.length
+      ? `LLM_CORE_QUERY_MAP has ${queries.length} unique primary queries`
+      : `LLM_CORE_QUERY_MAP has duplicate primary queries`,
+  );
+
+  pushCheck(
+    checks,
+    "core-query-path-unique",
+    uniquePaths.size === paths.length,
+    uniquePaths.size === paths.length
+      ? `LLM_CORE_QUERY_MAP has ${paths.length} unique paths`
+      : `LLM_CORE_QUERY_MAP has duplicate paths (keyword-primary collision)`,
+  );
+}
+
+/**
+ * AEO_ENTRY_MAP orphan bar: leaf reachable from hub; hub from home (home
+ * door is chrome); leaf returns to hub via related links.
+ */
+function evaluateInternalLinkGraph(checks: RegistryAlignmentCheck[]): void {
+  const cities = cityLanders();
+  const situations = situationLanders();
+  const situationPaths = new Set(situations.map((lander) => lander.path));
+  const cityPaths = new Set(cities.map((lander) => lander.path));
+
+  pushCheck(
+    checks,
+    "graph-city-count",
+    cities.length === 7,
+    `city landers ${cities.length} (expected 7)`,
+  );
+
+  pushCheck(
+    checks,
+    "graph-situation-count",
+    situations.length === 2,
+    `situation landers ${situations.length} (expected 2)`,
+  );
+
+  pushCheck(
+    checks,
+    "graph-hub-in-seo",
+    PAGE_SEO["cities-we-buy-in-east-bay"].path === CITIES_HUB_PATH,
+    `cities hub path ${CITIES_HUB_PATH} ${
+      PAGE_SEO["cities-we-buy-in-east-bay"].path === CITIES_HUB_PATH
+        ? "matches"
+        : "mismatches"
+    } PAGE_SEO`,
+  );
+
+  for (const lander of cities) {
+    const related = cityRelatedLinks(lander);
+    const peerCities = related.filter((link) => cityPaths.has(link.href));
+    const relatedSituations = related.filter((link) =>
+      situationPaths.has(link.href),
+    );
+    const hubFirst = related[0]?.href === CITIES_HUB_PATH;
+    const peerOk = peerCities.length >= 2 && peerCities.length <= 4;
+    const bothSituations = relatedSituations.length === situations.length;
+
+    pushCheck(
+      checks,
+      `graph-city-hub:${lander.slug}`,
+      hubFirst,
+      `${lander.slug} related doors ${hubFirst ? "start with" : "missing"} cities hub`,
+    );
+    pushCheck(
+      checks,
+      `graph-city-peers:${lander.slug}`,
+      peerOk,
+      `${lander.slug} has ${peerCities.length} peer cities (need 2–4)`,
+    );
+    pushCheck(
+      checks,
+      `graph-city-situations:${lander.slug}`,
+      bothSituations,
+      `${lander.slug} links ${relatedSituations.length}/${situations.length} situation leaves`,
+    );
+
+    for (const slug of lander.relatedSlugs) {
+      const exists = LANDERS.some((row) => row.slug === slug);
+      pushCheck(
+        checks,
+        `graph-related-exists:${lander.slug}:${slug}`,
+        exists,
+        `${lander.slug} relatedSlug ${slug} ${exists ? "exists" : "missing"}`,
+      );
+    }
+  }
+
+  for (const lander of situations) {
+    const related = situationRelatedLinks(lander);
+    const relatedCities = related.filter((link) => cityPaths.has(link.href));
+    const peerSituation = related.filter((link) =>
+      situationPaths.has(link.href),
+    );
+    const hubFirst = related[0]?.href === CITIES_HUB_PATH;
+
+    pushCheck(
+      checks,
+      `graph-situation-hub:${lander.slug}`,
+      hubFirst,
+      `${lander.slug} related doors ${hubFirst ? "start with" : "missing"} cities hub`,
+    );
+    pushCheck(
+      checks,
+      `graph-situation-cities:${lander.slug}`,
+      relatedCities.length >= 2,
+      `${lander.slug} has ${relatedCities.length} city leaves (need ≥2)`,
+    );
+    pushCheck(
+      checks,
+      `graph-situation-peer:${lander.slug}`,
+      peerSituation.length === 1,
+      `${lander.slug} has ${peerSituation.length} peer situation (need 1)`,
+    );
+
+    for (const slug of lander.relatedSlugs) {
+      const exists = LANDERS.some((row) => row.slug === slug);
+      pushCheck(
+        checks,
+        `graph-related-exists:${lander.slug}:${slug}`,
+        exists,
+        `${lander.slug} relatedSlug ${slug} ${exists ? "exists" : "missing"}`,
+      );
+    }
+  }
+}
+
 /** Same rules as `npm run check:registries`. */
 export function evaluateRegistryAlignment(): RegistryAlignmentResult {
   const checks: RegistryAlignmentCheck[] = [];
@@ -48,6 +195,8 @@ export function evaluateRegistryAlignment(): RegistryAlignmentResult {
       `LLM_CORE_QUERY_MAP path ${row.path} ${sitemapPaths.has(row.path) ? "in" : "missing from"} sitemap`,
     );
   }
+
+  evaluateCoreQueryUniqueness(checks);
 
   pushCheck(
     checks,
@@ -100,6 +249,8 @@ export function evaluateRegistryAlignment(): RegistryAlignmentResult {
     sitemapPaths.size === expectedSize,
     `sitemap count ${sitemapPaths.size} vs PAGE_SEO (${pageSeoPaths.size}) + aux (${auxPaths.size})`,
   );
+
+  evaluateInternalLinkGraph(checks);
 
   const ok = checks.every((check) => check.pass);
   return { ok, checks };
