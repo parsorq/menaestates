@@ -21,6 +21,8 @@ npm run db:migrate
 npm run dev
 ```
 
+`npm run dev` clears `.next` first. Turbopack has been serving stale CSS (unstyled guest chrome). Use `npm run dev:hot` only when you need a warm restart and styles still look right.
+
 - Marketing: `http://localhost:3000/`
 - City landers: `/sell-house-fast-oakland` (and the other six buy cities)
 - Guides: `/guides`, `/guides/sell-inherited-house-east-bay`, `/guides/sell-house-as-is-east-bay`
