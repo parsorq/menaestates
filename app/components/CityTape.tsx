@@ -12,8 +12,8 @@ type CityTapeProps = {
   cities: readonly CityTapeItem[];
 };
 
-/** Matches tape CSS: ~1.7 across under 744px, ~4.25 across on larger. */
-export const CITY_TAPE_IMAGE_SIZES = "(max-width: 743px) 60vw, 24vw";
+/** Matches tape CSS: ~1.25 across under 744px (swipe strip), ~4.25 across on larger. */
+export const CITY_TAPE_IMAGE_SIZES = "(max-width: 743px) 78vw, 24vw";
 
 /** First N primary tiles start immediately; clone stays lazy/low. */
 export const CITY_TAPE_EAGER_COUNT = 2;

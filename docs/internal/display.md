@@ -30,7 +30,7 @@ Thin `/ops` (login, leads list, lead detail) must stay operable at **390, 744, 1
 - Guide leaf hero (`.me-hero__grid`) stays one column below **900**; two-column only from **900** (not from **744**). Guide source links use `overflow-wrap: anywhere`.
 - Tool chooser options stay content-height (`flex: 0 0 auto`, full width) below **744**; row wrap with `flex: 1 1 12rem` from **744**.
 - About stats stay one column below **744**; three-up from **744**.
-- City tape may marquee or scroll horizontally inside `.me-city-tape` only (contained overflow; reduced-motion uses `overflow-x: auto` on the tape). That is not page horizontal scroll.
+- City tape: below **744**, one set with `overflow-x: auto` (swipe / scroll-snap), no marquee clone. From **744**, marquee is allowed inside `.me-city-tape` only. Reduced-motion always uses the swipe strip. That is not page horizontal scroll.
 - Do not put `overflow-x: clip` or `scrollbar-gutter` on `html` / `body` (forge DISPLAY_GATES §1c). Guard: `lib/guest-display-policy.test.ts`.
 
 ## Ops layout locks

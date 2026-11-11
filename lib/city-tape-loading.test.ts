@@ -14,7 +14,7 @@ const CITY_TAPE_SOURCE = readFileSync(
 describe("city tape image loading", () => {
   it("keeps early eager tiles and low-priority lazy clones", () => {
     expect(CITY_TAPE_EAGER_COUNT).toBeGreaterThanOrEqual(2);
-    expect(CITY_TAPE_IMAGE_SIZES).toContain("60vw");
+    expect(CITY_TAPE_IMAGE_SIZES).toContain("78vw");
     expect(CITY_TAPE_IMAGE_SIZES).toContain("24vw");
     expect(CITY_TAPE_SOURCE).toContain('loading={eager ? "eager" : "lazy"}');
     expect(CITY_TAPE_SOURCE).toContain(

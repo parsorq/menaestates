@@ -158,6 +158,12 @@ describe("guest display policy", () => {
   it("contains city tape horizontal motion on the tape only", () => {
     expect(css).toMatch(/\.me-city-tape\s*\{[^}]*overflow:\s*hidden/s);
     expect(css).toMatch(
+      /@media\s*\(max-width:\s*743px\)\s*\{[\s\S]*?\.me-city-tape\s*\{[^}]*overflow-x:\s*auto/s,
+    );
+    expect(css).toMatch(
+      /@media\s*\(max-width:\s*743px\)\s*\{[\s\S]*?\.me-city-tape__track\s*\{[^}]*animation:\s*none/s,
+    );
+    expect(css).toMatch(
       /prefers-reduced-motion:\s*reduce[\s\S]*?\.me-city-tape\s*\{[^}]*overflow-x:\s*auto/s,
     );
   });
