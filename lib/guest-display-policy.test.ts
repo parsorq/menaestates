@@ -5,6 +5,11 @@ import { describe, expect, it } from "vitest";
 const cssPath = join(process.cwd(), "app/globals.css");
 const css = readFileSync(cssPath, "utf8");
 
+const layoutPath = join(process.cwd(), "app/layout.tsx");
+const layout = readFileSync(layoutPath, "utf8");
+const headerPath = join(process.cwd(), "app/components/SiteHeader.tsx");
+const header = readFileSync(headerPath, "utf8");
+
 describe("guest display policy", () => {
   it("keeps reading-measure and edge-inline tokens for marketing shells", () => {
     expect(css).toMatch(/--reading-measure:\s*min\(62ch,\s*100%\)/);
@@ -16,8 +21,19 @@ describe("guest display policy", () => {
     expect(css).toMatch(/\.vc-reading-measure\s*\{[^}]*var\(--reading-measure\)/s);
   });
 
+  it("opts into Next 16 instant scroll on SPA navigation", () => {
+    expect(layout).toMatch(/data-scroll-behavior=["']smooth["']/);
+    expect(css).toMatch(
+      /html\[data-scroll-behavior=["']smooth["']\]\s*\{[^}]*scroll-behavior:\s*smooth/s,
+    );
+    expect(header).toMatch(/window\.scrollTo\(/);
+    expect(header).toMatch(/useLayoutEffect/);
+  });
+
   it("does not clip or gutter-scroll on document root", () => {
-    const htmlBlock = css.match(/html\s*\{[^}]*\}/);
+    const htmlBlock = css.match(
+      /html(?:\[data-scroll-behavior=["']smooth["']\])?\s*\{[^}]*\}/,
+    );
     const bodyBlock = css.match(/body\s*\{[^}]*\}/);
     expect(htmlBlock?.[0] ?? "").not.toMatch(/overflow-x:\s*clip/);
     expect(htmlBlock?.[0] ?? "").not.toMatch(/scrollbar-gutter/);

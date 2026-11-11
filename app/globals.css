@@ -42,7 +42,8 @@
   box-sizing: border-box;
 }
 
-html {
+/* Next 16: data-scroll-behavior opts into instant scroll override on SPA nav. */
+html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
@@ -3553,7 +3554,7 @@ a.me-city-card:active {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html[data-scroll-behavior="smooth"] {
     scroll-behavior: auto;
   }
 

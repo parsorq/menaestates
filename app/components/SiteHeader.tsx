@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { getAboutHref, ABOUT_NAV_LABEL } from "@/lib/about";
 import {
   CITIES_HUB_NAV_LABEL,
@@ -29,8 +29,12 @@ export function SiteHeader() {
   const toggleRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setMenuOpen(false);
+    // Sticky header is the first page child; Next can treat it as already in
+    // view and skip scroll-to-top. Hash targets keep their own jump.
+    if (window.location.hash) return;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname]);
 
   useEffect(() => {
