@@ -41,6 +41,16 @@ describe("handoff packet completeness", () => {
       })
     ).toEqual(["address", "motivation", "seller timeline"]);
   });
+
+  it("treats pending_call intake placeholders as missing", () => {
+    expect(
+      handoffPacketMissingLabels({
+        ...complete,
+        motivation: "pending_call",
+        timeline: "pending_call",
+      })
+    ).toEqual(["motivation", "seller timeline"]);
+  });
 });
 
 describe("contract file link", () => {

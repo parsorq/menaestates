@@ -5,7 +5,9 @@ alwaysApply: true
 
 # Voice
 
-- Default voice is `docs/VOICE.md` (ledger English). If that file is missing, install it from the initial-setup skill template. Do not leave a repo without a voice.
+- Default voice is `docs/VOICE.md` (Hector manner translation for cash-buy sellers). If that file is missing, install it from the initial-setup skill template. Do not leave a repo without a voice.
 - A client voice file covers only that client’s product copy. Studio chrome, new surfaces, and agent docs use `docs/VOICE.md`.
-- No attitude verbs. Verb-cover test. No en dashes or em dashes. No `eval` in reader-facing copy.
+- Calm, candid, thorough; no pitch attitude verbs. Verb-cover test still applies. No en dashes or em dashes. No `eval` in reader-facing copy.
+- **No studio talk on guest copy or in guest copy proposals.** Banned IA nouns include path, door, lander, hub, leaf, catalog, thesis, mesh, footprint, scope (jargon), and the rest in `docs/VOICE.md` Internal nouns. A seller has a house and a call, not a path. Do not offer “On this path” (or kin) as a heading or body option.
+- Guest copy that names the sitemap (city page, special page, wherever you start, form is the same everywhere) is a fail. Keep `lib/guest-voice.test.ts` green after guest string edits.
 - `run audit tone for [scope]` is enough for a Tone pass. Do not implement on that turn unless they ask next.

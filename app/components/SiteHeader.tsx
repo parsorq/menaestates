@@ -1,13 +1,25 @@
 import Link from "next/link";
-import { getCitiesHubHref } from "@/lib/cities-hub";
+import { getAboutHref, ABOUT_NAV_LABEL } from "@/lib/about";
+import {
+  CITIES_HUB_NAV_LABEL,
+  getCitiesHubHref,
+} from "@/lib/cities-hub";
+import {
+  GET_A_CASH_OFFER_NAV_LABEL,
+  getGetACashOfferHref,
+} from "@/lib/get-a-cash-offer";
+import { GUEST_PROOF } from "@/lib/guest-proof";
 import { getHowWeBuyHref, HOW_WE_BUY_NAV_LABEL } from "@/lib/how-we-buy";
 
-const phone = process.env.NEXT_PUBLIC_OPS_PHONE?.trim() || "";
+const phone =
+  process.env.NEXT_PUBLIC_OPS_PHONE?.trim() || GUEST_PROOF.nap.phoneDisplay;
 
-/** Shared doors only: home (brand), cities hub, trust, offer form (AEO_ENTRY_MAP). */
+/** Shared nav: home (brand), cities, how we buy, about, offer page. */
 export function SiteHeader() {
   const citiesHref = getCitiesHubHref();
   const howWeBuyHref = getHowWeBuyHref();
+  const aboutHref = getAboutHref();
+  const offerHref = getGetACashOfferHref();
 
   return (
     <header className="me-site-header">
@@ -17,20 +29,26 @@ export function SiteHeader() {
         </Link>
         <nav className="me-header-nav" aria-label="Site">
           <Link className="me-header-nav__link" href={citiesHref}>
-            Cities
+            {CITIES_HUB_NAV_LABEL}
           </Link>
           <Link className="me-header-nav__link" href={howWeBuyHref}>
             {HOW_WE_BUY_NAV_LABEL}
           </Link>
+          <Link className="me-header-nav__link" href={aboutHref}>
+            {ABOUT_NAV_LABEL}
+          </Link>
         </nav>
         <div className="me-header-actions">
           {phone ? (
-            <a className="me-btn me-btn--ghost" href={`tel:${phone.replace(/\D/g, "")}`}>
+            <a
+              className="me-btn me-btn--ghost"
+              href={`tel:${GUEST_PROOF.nap.phoneTel}`}
+            >
               Call {phone}
             </a>
           ) : null}
-          <Link className="me-btn me-btn--primary" href="/#offer-form">
-            Get a cash offer
+          <Link className="me-btn me-btn--primary" href={offerHref}>
+            {GET_A_CASH_OFFER_NAV_LABEL}
           </Link>
         </div>
       </div>

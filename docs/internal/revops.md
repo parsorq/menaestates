@@ -24,7 +24,7 @@ Ops UI (`/ops/leads`): thin scan list with search (name / phone / address fragme
 
 ## Lead object
 
-`full_name`, `phone`, `email?`, `property_address`, `county`, `motivation`, `timeline`, `occupancy`, `consent_call` + `consent_call_at` + `consent_text_version` + `consent_text`, `source`, `landing_path`, `status` (default `new`), `utm` jsonb, `notes`, `next_action_at` (timestamptz, nullable), `numbers_discussed`, `access_photos_notes`, `contract_file_link`.
+`full_name`, `phone`, `email?`, `property_address`, `county?`, `motivation`, `timeline`, `occupancy`, `consent_call` + `consent_call_at` + `consent_text_version` + `consent_text`, `source`, `landing_path`, `status` (default `new`), `utm` jsonb, `notes`, `next_action_at` (timestamptz, nullable), `numbers_discussed`, `access_photos_notes`, `contract_file_link`, `intake_stage` (`contact` | `qualified`). County nullable since migration `20261111010000_leads_optional_address_county.sql`; address required again on guest + API (migration `20261111020000_leads_require_property_address.sql`).
 
 Field adds:
 
@@ -36,6 +36,7 @@ Field adds:
 | `access_photos_notes` | `TEXT` | Handoff packet (keys, lockbox, photo links) |
 | `contract_file_link` | `TEXT` | Handoff packet; http(s) URL to signed contract file |
 | `consent_text` | `TEXT` | Exact call-consent wording shown at submit; migration `20261109220000_leads_consent_text.sql`. Null on pre-trail rows. |
+| `intake_stage` | `TEXT` | `contact` (short first ask) or `qualified` (name + sell facts). Migration `20261110150000_leads_intake_stage.sql`. Default `qualified` for older rows. |
 
 ### Status history (`lead_events`)
 
@@ -53,6 +54,22 @@ Written on `POST /api/ops/leads/[id]/status` when status actually changes. Same 
 
 Insert path: guest form → `POST /api/leads` (service role) → abuse guards → Supabase `leads` → Resend alert → visible on `/ops/leads`.
 
+### Guest intake
+
+Shared `LeadForm` is one short ask. Same store. No second CRM.
+
+| Guest fields | Required | API | Row state |
+|--------------|----------|-----|-----------|
+| Full name, phone, property address, call consent | Yes | `POST /api/leads` | Inserts. Goes to `/thank-you`. |
+| Why sell, notes | Optional | same | Timeline and occupancy store `pending_call` until the call. Motivation uses the selection or `pending_call`. County may be null. |
+| County | Not shown | same | City/guide landers may still send `defaultCounty` silently for ops. |
+
+`intake_stage` is `qualified` only when motivation, timeline, and occupancy are all real values (scripts / older clients). Guest submits are usually `contact`. Soft dedupe uses phone + address.
+
+`POST /api/leads/qualify` remains for token-gated updates; the guest form no longer uses it.
+
+Guest proof near the ask: Hector photo, name, role, CA license, short who-buys line, and a compact What happens next (call window, cash buyer, cities). SSOT in `lib/guest-proof.ts`. Full bio, Realtor career stats, and reviews stay on About. Realtor stats/reviews are labeled career, not cash-buy counts.
+
 ### Abuse guards (`POST /api/leads`)
 
 Policy in `lib/lead-guards.ts`. No CAPTCHA vendor. Decisions are logged server-side (`[api/leads] decision`). Seller-facing errors are clear (form shows `error`); not silent ignore.
@@ -67,7 +84,20 @@ Double-submit (double-click / retry of the same phone + address): soft dedupe. S
 
 ### Landers (Prompt D)
 
-Shared `LeadForm` sets `source` and `landing_path` per page. Home uses `source: web`, `landing_path: /`. City/situation landers use `lander-*` sources and their path (e.g. `/sell-house-fast-oakland`). Registry: `lib/landers.ts`. AEO triad: `docs/standards/LLM_AEO.md`.
+Shared `LeadForm` sets `source` and `landing_path` per page. Ops Source shows both. City and guide registry: `lib/landers.ts` (`kind: "city" | "guide"`). Guide ops `source` strings stay `lander-inherited` / `lander-as-is` (frozen for historic leads). Guides hub path: `lib/guides-hub.ts` (`GUIDES_HUB_PATH` = `/guides`). Repair tool path: `lib/repair-or-as-is.ts`. AEO triad: `docs/standards/LLM_AEO.md`.
+
+| Page | `source` | `landing_path` |
+|------|----------|----------------|
+| Home | `web` | `/` |
+| Cities hub | `cities-hub` | `/cities-we-buy-in-east-bay` |
+| How we buy | `how-we-buy` | `/how-we-buy` |
+| Guides hub (`/guides`) | `guides-hub` | `/guides` |
+| Inherited guide | `lander-inherited` | `/guides/sell-inherited-house-east-bay` |
+| As-is guide | `lander-as-is` | `/guides/sell-house-as-is-east-bay` |
+| Repair tool | `repair-or-as-is` | `/tools/repair-or-as-is-east-bay` |
+| City landers | `lander-*` (e.g. `lander-oakland`) | city path (e.g. `/sell-house-fast-oakland`) |
+
+`/guides/*` leaves write the full guide path (not `/guides`). `/tools/*` writes the tool path (today only `/tools/repair-or-as-is-east-bay`).
 
 Ops CRM update: authenticated `POST /api/ops/leads/[id]` with notes, next action, and/or handoff packet fields. Status stays on `POST /api/ops/leads/[id]/status` (and appends `lead_events`).
 
@@ -110,7 +140,7 @@ Local check script: `node scripts/verify-handoff.mjs` (service role; sends a rea
 | 1 | Site + DB + notify + ops list | Kickoff (shipped) |
 | 2 | CRM stages / notes / next_action / filters | Prompt B (shipped) |
 | 3 | Mena handoff packet | Prompt C (shipped) |
-| 4 | SEO city/situation pages | Prompt D (shipped) |
+| 4 | SEO city/guide pages | Prompt D (shipped) |
 | 5 | Ads + UTM discipline | Prompt E (runbook shipped; spend blocked until counsel) |
 | 6 | Ops search + lead detail | Prompt F (shipped) |
 
@@ -118,22 +148,34 @@ Copy-paste prompts: [`agent-prompts.md`](./agent-prompts.md).
 
 ## Ads runbook (Prompt E)
 
-Paid traffic lands on existing guest landers only (`lib/landers.ts` + home). Same `LeadForm` → `POST /api/leads`. No new capture stack. No lead resale.
+Paid traffic lands on existing guest capture pages only (city/guide rows in `lib/landers.ts`, home, guides hub `/guides`, guide leaves under `/guides/*`, repair tool under `/tools/*`). Same `LeadForm` → `POST /api/leads`. No new capture stack. No lead resale. Prefer city or guide leaves over hubs when the ad already names the seller's case.
 
 ### UTM discipline
 
-Ad final URLs must carry standard UTMs. Form reads query on submit (`lib/utm.ts`); API stores them on `leads.utm` jsonb. Ops Source column shows `source`, `landing_path`, and a UTM path line. Lead alert email includes the same UTM block.
+Ad final URLs must carry standard UTMs. Form reads query on submit (`lib/utm.ts`); API stores them on `leads.utm` jsonb. Ops Source column shows `source`, `landing_path`, and a UTM path line. Lead alert email includes the same UTM block. Final URL path must match the page’s `landing_path` (table above); UTMs do not replace `source`.
 
-Example (Google → Oakland lander):
+Example (Google → Oakland city lander → `source: lander-oakland`, `landing_path: /sell-house-fast-oakland`):
 
 ```text
 https://menaestates.vercel.app/sell-house-fast-oakland?utm_source=google&utm_medium=cpc&utm_campaign=eastbay-sellers&utm_content=oakland-lander&utm_term=sell-house-fast-oakland
 ```
 
-Example (Meta → inherited lander):
+Example (Meta → inherited guide leaf → `source: lander-inherited`, `landing_path: /guides/sell-inherited-house-east-bay`):
 
 ```text
-https://menaestates.vercel.app/sell-inherited-house-east-bay?utm_source=meta&utm_medium=paid_social&utm_campaign=eastbay-sellers&utm_content=inherited-lander
+https://menaestates.vercel.app/guides/sell-inherited-house-east-bay?utm_source=meta&utm_medium=paid_social&utm_campaign=eastbay-sellers&utm_content=inherited-guide&utm_term=sell-inherited-house-east-bay
+```
+
+Example (Google → repair tool → `source: repair-or-as-is`, `landing_path: /tools/repair-or-as-is-east-bay`):
+
+```text
+https://menaestates.vercel.app/tools/repair-or-as-is-east-bay?utm_source=google&utm_medium=cpc&utm_campaign=eastbay-sellers&utm_content=repair-or-as-is-tool&utm_term=repair-or-sell-as-is
+```
+
+Example (Meta → guides hub only when the ad is catalog-level → `source: guides-hub`, `landing_path: /guides`):
+
+```text
+https://menaestates.vercel.app/guides?utm_source=meta&utm_medium=paid_social&utm_campaign=eastbay-sellers&utm_content=guides-hub
 ```
 
 Local verify: `node scripts/verify-utm.mjs` (posts a lead with UTMs, asserts jsonb, deletes the row).
@@ -155,7 +197,7 @@ Keep agents, rentals, and out-of-footprint traffic out of paid search and Meta.
 
 - Exclude real-estate industry job titles when the platform allows
 - Exclude interest clusters that skew agent / investor-course / rental-landlord software
-- Geo: Alameda + Contra Costa only; no national lookalikes until proven
+- Geo: Oakland, San Leandro, Hayward, Castro Valley, San Lorenzo, Newark, Tracy (Alameda + San Joaquin); no national lookalikes until proven
 - Age floor: adult homeowners; no under-21 targeting
 
 Review negatives weekly in the first 14 days of spend. Add search-term waste to this list the same day.
@@ -168,14 +210,14 @@ Review negatives weekly in the first 14 days of spend. Add search-term waste to 
 | Channels | Google Search and/or Meta. One channel first. |
 | Daily cap (pilot) | $75 USD / day across all ad accounts for this brand until counsel lifts the hold and the first 14 days stay inside kill criteria. |
 | Monthly soft cap | $1,500 USD until a written raise. |
-| Destination | Existing landers only. Do not point ads at Construction (`forge/mena` / Vercel `mena`). |
+| Destination | Existing capture pages only (city/guide landers, home, `/guides`, `/guides/*`, `/tools/*`). Do not point ads at Construction (`forge/mena` / Vercel `mena`). |
 
 **Kill criteria (pause same day, do not wait for a weekly review):**
 
 1. Counsel hold or INSTALL `AD1` not signed.
 2. Consent / TCPA complaint or platform policy strike on cash-buyer claims.
 3. Cost per qualified lead (status `qualified`+) exceeds $250 for 3 calendar days with ≥5 paid leads.
-4. ≥30% of paid leads are agents, rentals, or outside Alameda / Contra Costa after operator tag in notes.
+4. ≥30% of paid leads are agents, rentals, or outside the seven buy cities after operator tag in notes.
 5. Form, notify, or ops inbox broken for >4 hours during spend hours (PT).
 
 No spend until INSTALL counsel row `AD1` is signed. Caps above are pilot defaults; change them in this table when the operator writes a new number.
@@ -186,7 +228,7 @@ Do not invent licenses, guarantees, or cash-buyer claims counsel has not cleared
 
 | # | Item | Sign-off |
 |---|------|----------|
-| C1 | Entity may advertise as principal cash buyer in CA for Alameda / Contra Costa | Pending counsel |
+| C1 | Entity may advertise as principal cash buyer in CA for the seven buy cities (Alameda + Tracy / San Joaquin) | Pending counsel |
 | C2 | Licensing / brokerage language: ads and landers do not imply realtor/MLS listing services | Pending counsel |
 | C3 | Cash / as-is / speed claims on ads match cleared lander wording only | Pending counsel |
 | C4 | Consent text (`lib/consent.ts`) and call path reviewed for TCPA / CIPA risk at ad volume | Pending counsel |

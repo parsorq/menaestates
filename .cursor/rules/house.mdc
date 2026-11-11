@@ -5,7 +5,7 @@ alwaysApply: true
 
 # House
 
-- House material is the answer-block field. Named references: Readings and Acceso. White field, charcoal type, hairline restraint, teal only for the real action.
+- House material is the answer-block field. Named references: Readings and Acceso. White field, charcoal type, hairline restraint, navy `--bay` only for the real action.
 - Do not use leftover directory chrome (heading-1, ChromeContentBand, claim/doors directory).
 - Principles first: HIG, accessibility, dignified and clear. Structure before decoration.
 - Doors are named roles and Acceso rooms, not a service menu. Visible Acceso copy does not say door or puerta as the place name.

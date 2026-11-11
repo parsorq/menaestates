@@ -4,7 +4,7 @@ import {
   CITIES_HUB_PATH,
   LANDERS,
   cityLanders,
-  situationLanders,
+  guideLanders,
 } from "./landers";
 import {
   LLM_CORE_QUERY_MAP,
@@ -17,7 +17,7 @@ import {
 } from "./marketing-sitemap";
 import { PAGE_SEO, SEO_ROUTE_KEYS, type SeoRouteKey } from "./seo-metadata";
 import { absoluteSiteUrl } from "./site";
-import { situationRelatedLinks } from "./situation-landers";
+import { guideRelatedLinks } from "./guide-landers";
 
 export type RegistryAlignmentCheck = {
   id: string;
@@ -70,8 +70,8 @@ function evaluateCoreQueryUniqueness(checks: RegistryAlignmentCheck[]): void {
  */
 function evaluateInternalLinkGraph(checks: RegistryAlignmentCheck[]): void {
   const cities = cityLanders();
-  const situations = situationLanders();
-  const situationPaths = new Set(situations.map((lander) => lander.path));
+  const guides = guideLanders();
+  const guidePaths = new Set(guides.map((lander) => lander.path));
   const cityPaths = new Set(cities.map((lander) => lander.path));
 
   pushCheck(
@@ -83,9 +83,9 @@ function evaluateInternalLinkGraph(checks: RegistryAlignmentCheck[]): void {
 
   pushCheck(
     checks,
-    "graph-situation-count",
-    situations.length === 2,
-    `situation landers ${situations.length} (expected 2)`,
+    "graph-guide-count",
+    guides.length === 2,
+    `guide landers ${guides.length} (expected 2)`,
   );
 
   pushCheck(
@@ -102,12 +102,12 @@ function evaluateInternalLinkGraph(checks: RegistryAlignmentCheck[]): void {
   for (const lander of cities) {
     const related = cityRelatedLinks(lander);
     const peerCities = related.filter((link) => cityPaths.has(link.href));
-    const relatedSituations = related.filter((link) =>
-      situationPaths.has(link.href),
+    const relatedGuides = related.filter((link) =>
+      guidePaths.has(link.href),
     );
     const hubFirst = related[0]?.href === CITIES_HUB_PATH;
     const peerOk = peerCities.length >= 2 && peerCities.length <= 4;
-    const bothSituations = relatedSituations.length === situations.length;
+    const bothGuides = relatedGuides.length === guides.length;
 
     pushCheck(
       checks,
@@ -123,9 +123,9 @@ function evaluateInternalLinkGraph(checks: RegistryAlignmentCheck[]): void {
     );
     pushCheck(
       checks,
-      `graph-city-situations:${lander.slug}`,
-      bothSituations,
-      `${lander.slug} links ${relatedSituations.length}/${situations.length} situation leaves`,
+      `graph-city-guides:${lander.slug}`,
+      bothGuides,
+      `${lander.slug} links ${relatedGuides.length}/${guides.length} guide leaves`,
     );
 
     for (const slug of lander.relatedSlugs) {
@@ -139,31 +139,31 @@ function evaluateInternalLinkGraph(checks: RegistryAlignmentCheck[]): void {
     }
   }
 
-  for (const lander of situations) {
-    const related = situationRelatedLinks(lander);
+  for (const lander of guides) {
+    const related = guideRelatedLinks(lander);
     const relatedCities = related.filter((link) => cityPaths.has(link.href));
-    const peerSituation = related.filter((link) =>
-      situationPaths.has(link.href),
+    const peerGuide = related.filter((link) =>
+      guidePaths.has(link.href),
     );
     const hubFirst = related[0]?.href === CITIES_HUB_PATH;
 
     pushCheck(
       checks,
-      `graph-situation-hub:${lander.slug}`,
+      `graph-guide-hub:${lander.slug}`,
       hubFirst,
       `${lander.slug} related doors ${hubFirst ? "start with" : "missing"} cities hub`,
     );
     pushCheck(
       checks,
-      `graph-situation-cities:${lander.slug}`,
+      `graph-guide-cities:${lander.slug}`,
       relatedCities.length >= 2,
       `${lander.slug} has ${relatedCities.length} city leaves (need ≥2)`,
     );
     pushCheck(
       checks,
-      `graph-situation-peer:${lander.slug}`,
-      peerSituation.length === 1,
-      `${lander.slug} has ${peerSituation.length} peer situation (need 1)`,
+      `graph-guide-peer:${lander.slug}`,
+      peerGuide.length === 1,
+      `${lander.slug} has ${peerGuide.length} peer guide (need 1)`,
     );
 
     for (const slug of lander.relatedSlugs) {

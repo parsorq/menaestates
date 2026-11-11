@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CityTape } from "@/app/components/CityTape";
-import { LeadForm } from "@/app/components/LeadForm";
 import { SiteFooter } from "@/app/components/SiteFooter";
 import { SiteHeader } from "@/app/components/SiteHeader";
-import { getCitiesHubHref } from "@/lib/cities-hub";
-import { getHowWeBuyHref } from "@/lib/how-we-buy";
-import { getRepairOrAsIsHref } from "@/lib/repair-or-as-is";
+import {
+  CITIES_HUB_ALL_LABEL,
+  CITIES_HUB_NAV_LABEL,
+  getCitiesHubHref,
+} from "@/lib/cities-hub";
+import {
+  GET_A_CASH_OFFER_NAV_LABEL,
+  getGetACashOfferHref,
+} from "@/lib/get-a-cash-offer";
+import {
+  GUIDES_HUB_ALL_LABEL,
+  getGuidesHubHref,
+} from "@/lib/guides-hub";
+import { getHowWeBuyHref, HOW_WE_BUY_NAV_LABEL } from "@/lib/how-we-buy";
+import { SELLER_HELP_SHELF_ITEMS } from "@/lib/seller-help-shelf";
 import { buildPageMetadata, getPageSeo } from "@/lib/seo-metadata";
 
 const CITY_TAPE = [
@@ -17,10 +28,10 @@ const CITY_TAPE = [
     objectPosition: "42% 40%",
   },
   {
-    name: "Berkeley",
-    image: "/cities/berkeley.jpg",
-    alt: "Sather Tower over Berkeley at sunset with the bay beyond",
-    objectPosition: "72% 35%",
+    name: "San Leandro",
+    image: "/cities/san-leandro.jpg",
+    alt: "Aerial view of the San Leandro Marina and shoreline",
+    objectPosition: "58% 42%",
   },
   {
     name: "Hayward",
@@ -29,96 +40,94 @@ const CITY_TAPE = [
     objectPosition: "50% 35%",
   },
   {
-    name: "Fremont",
-    image: "/cities/fremont.jpg",
-    alt: "Lake Elizabeth and Central Park in Fremont with hills beyond",
-    objectPosition: "50% 40%",
+    name: "Castro Valley",
+    image: "/cities/castro-valley.jpg",
+    alt: "Castro Valley hills with Eden Medical Center in view",
+    objectPosition: "52% 38%",
   },
   {
-    name: "Concord",
-    image: "/cities/concord.jpg",
-    alt: "Concord skyline with Mount Diablo in the distance",
-    objectPosition: "48% 35%",
+    name: "San Lorenzo",
+    image: "/cities/san-lorenzo.jpg",
+    alt: "Aerial view of San Lorenzo neighborhoods",
+    objectPosition: "48% 45%",
   },
   {
-    name: "Walnut Creek",
-    image: "/cities/walnut-creek.webp",
-    alt: "Walnut Creek downtown along the BART line",
-    objectPosition: "50% 40%",
+    name: "Newark",
+    image: "/cities/newark.jpg",
+    alt: "Aerial view of Newark beside the Bay salt ponds",
+    objectPosition: "62% 40%",
   },
   {
-    name: "Richmond",
-    image: "/cities/richmond.jpg",
-    alt: "Bay view from Richmond toward San Francisco",
-    objectPosition: "35% 45%",
+    name: "Tracy",
+    image: "/cities/tracy.jpg",
+    alt: "Downtown Tracy at dusk",
+    objectPosition: "48% 42%",
   },
 ] as const;
-
-const SITUATIONS = [
-  {
-    href: "/sell-inherited-house-east-bay",
-    label: "Inherited house",
-    blurb: "Estate and probate exits stay on one callback path.",
-  },
-  {
-    href: "/sell-house-as-is-east-bay",
-    label: "Sell as-is",
-    blurb: "Repairs and deferred maintenance stay in the deal when numbers fit.",
-  },
-] as const;
-
 
 export const metadata: Metadata = buildPageMetadata("home");
 
 const homeSeo = getPageSeo("home");
+const offerSeo = getPageSeo("get-a-cash-offer");
 
 export default function HomePage() {
   const citiesHubHref = getCitiesHubHref();
+  const guidesHubHref = getGuidesHubHref();
   const howWeBuyHref = getHowWeBuyHref();
-  const repairOrAsIsHref = getRepairOrAsIsHref();
-
-  const tools = [
-    {
-      href: repairOrAsIsHref,
-      label: "Repair or as-is",
-      blurb: "Short chooser before the form. No price. No login.",
-    },
-  ] as const;
+  const offerHref = getGetACashOfferHref();
 
   return (
     <>
       <SiteHeader />
       <main>
-        <section className="me-home-hero" aria-labelledby="hero-title">
-          <div className="me-shell me-home-hero__grid">
-            <div className="me-home-hero__copy">
-              <p className="me-home-hero__brand">Mena Estates</p>
-              <h1 id="hero-title">{homeSeo.h1}</h1>
-              <p className="me-home-hero__lead vc-reading-measure">
-                {homeSeo.answerFirst}
-              </p>
-              <div className="me-home-hero__cta">
-                <a className="me-btn me-btn--primary" href="#offer-form">
-                  Get a cash offer
-                </a>
-                <Link className="me-btn me-btn--ghost" href={howWeBuyHref}>
-                  How we buy
-                </Link>
-                <a className="me-btn me-btn--ghost" href="#east-bay-doors">
-                  East Bay cities
-                </a>
+        <div className="me-home-lead">
+          <section className="me-home-hero" aria-labelledby="hero-title">
+            <div className="me-shell me-home-hero__grid">
+              <div className="me-home-hero__copy">
+                <p className="me-home-hero__brand">Mena Estates</p>
+                <h1 id="hero-title">{homeSeo.h1}</h1>
+                <p className="me-home-hero__lead vc-reading-measure">
+                  {homeSeo.answerFirst}
+                </p>
+                <div className="me-home-hero__cta">
+                  <Link className="me-btn me-btn--primary" href={offerHref}>
+                    {GET_A_CASH_OFFER_NAV_LABEL}
+                  </Link>
+                  <Link className="me-btn me-btn--ghost" href={howWeBuyHref}>
+                    How we buy
+                  </Link>
+                  <a className="me-btn me-btn--ghost" href="#buy-cities">
+                    Cities
+                  </a>
+                </div>
               </div>
             </div>
-            <aside className="me-home-hero__aside" aria-label="Footprint">
-              <strong>Alameda + Contra Costa</strong>
-              <p className="vc-reading-measure">
-                Oakland, Berkeley, Hayward, Fremont, Concord, Walnut Creek,
-                Richmond, and nearby cities in both counties. Outside that
-                footprint, we refuse the request.
+          </section>
+
+          <section
+            className="me-home-cities"
+            id="buy-cities"
+            aria-labelledby="cities-title"
+          >
+            <div className="me-shell">
+              <h2 id="cities-title">Cities we&apos;ve bought in</h2>
+              <p className="me-home-cities__intro vc-reading-measure">
+                These are cities where we&apos;ve bought. Open your city for local
+                detail, or request a cash offer and we will talk it through.
+                Outside that core, we still buy when the house and the numbers
+                fit.
               </p>
-            </aside>
-          </div>
-        </section>
+
+              <div className="me-home-doors-head">
+                <h3 className="me-home-section__subhead">Cities</h3>
+                <Link className="me-home-doors-hub" href={citiesHubHref}>
+                  {CITIES_HUB_ALL_LABEL}
+                </Link>
+              </div>
+              <CityTape cities={CITY_TAPE} />
+            </div>
+          </section>
+        </div>
 
         <section
           className="me-home-section"
@@ -128,158 +137,70 @@ export default function HomePage() {
           <div className="me-shell">
             <h2 id="how-title">How we buy</h2>
             <p className="me-home-section__intro vc-reading-measure">
-              We buy as principal. An operator handles seller calls. After under
-              contract, we own the exit with buyers and funding. No agent listing
-              theater. No lead auction.
+              We buy your house for cash. We are not listing it for you, and we
+              do not pass your information to other buyers. After close, we
+              remodel houses we own. That is our work, not a remodel of your house
+              before close.
             </p>
-
-            <div className="me-home-facts">
-              <div className="me-home-fact">
-                <h3>Principal, not a listing</h3>
-                <p className="vc-reading-measure">
-                  The purchase sits with us when the house and numbers fit. We do
-                  not market your house for other buyers as an agent.
-                </p>
-              </div>
-              <div className="me-home-fact">
-                <h3>One operator callback</h3>
-                <p className="vc-reading-measure">
-                  Your request stays with us. An operator reviews the address,
-                  county, timeline, and condition, then calls you the same day
-                  when we can.
-                </p>
-              </div>
-              <div className="me-home-fact">
-                <h3>Close path we own</h3>
-                <p className="vc-reading-measure">
-                  After under contract, we run title, access, and funding. The
-                  exit stays with us through close.
-                </p>
-              </div>
-            </div>
 
             <ol className="me-home-process">
               <li>
                 <strong>Send the house facts</strong>
                 <p>
-                  Address, county, occupancy, timeline, and why you want to sell.
-                  Use the form on this page or a city or situation page.
+                  Phone, name, and property address first, with call consent. Why
+                  sell and notes are optional. Tell us what you already know; we
+                  will fill in the rest on the call.
                 </p>
               </li>
               <li>
-                <strong>Operator calls</strong>
+                <strong>We call you</strong>
                 <p>
-                  We walk numbers, condition, and title questions on that call.
-                  If the house sits outside Alameda or Contra Costa, we say so
-                  and stop.
+                  We walk numbers, condition, and title at a pace you can follow.
+                  Bring your questions. Outside our usual cities, we still buy
+                  when the house and the numbers fit.
                 </p>
               </li>
               <li>
                 <strong>Contract, then we close</strong>
                 <p>
-                  When both sides agree, we go under contract. From there we own
-                  the exit: access, buyers, and funding through close.
+                  When both sides agree, we go under contract. From there we
+                  handle access, title, and funding through close, including when
+                  you still need time in the house.
                 </p>
               </li>
             </ol>
 
             <p className="me-home-section__more vc-reading-measure">
-              <Link href={howWeBuyHref}>
-                Full how we buy page: principal, operator split, and footprint
-              </Link>
+              <Link href={howWeBuyHref}>More detail on how we buy</Link>
             </p>
           </div>
         </section>
 
         <section
           className="me-home-section"
-          id="proof"
-          aria-labelledby="proof-title"
+          id="seller-help"
+          aria-labelledby="seller-help-title"
         >
           <div className="me-shell">
-            <h2 id="proof-title">Principal, operator, footprint</h2>
-            <p className="me-home-section__intro vc-reading-measure">
-              Proof for a cash exit in this footprint. No star ratings. No
-              invented testimonials. No license numbers or fixed-day promises on
-              this page.
-            </p>
-            <div className="me-home-proof">
-              <div className="me-home-proof__item">
-                <h3>Principal buyer</h3>
-                <p className="vc-reading-measure">
-                  We buy when the house and numbers fit. We are not an agent
-                  listing site.
-                </p>
-              </div>
-              <div className="me-home-proof__item">
-                <h3>Operator on the call</h3>
-                <p className="vc-reading-measure">
-                  An operator reviews the request and calls you. After under
-                  contract, we own the exit through close.
-                </p>
-              </div>
-              <div className="me-home-proof__item">
-                <h3>East Bay only</h3>
-                <p className="vc-reading-measure">
-                  Alameda and Contra Costa: Oakland, Berkeley, Hayward, Fremont,
-                  Concord, Walnut Creek, Richmond, and nearby cities in those
-                  counties. Outside that map, we refuse.
-                </p>
-              </div>
-            </div>
-            <p className="me-home-section__more vc-reading-measure">
-              <Link href={howWeBuyHref}>Read how we buy</Link>
-              {" · "}
-              <a href="#offer-form">Request a cash offer</a>
-            </p>
-          </div>
-        </section>
-
-        <section
-          className="me-home-section me-home-section--muted"
-          id="east-bay-doors"
-          aria-labelledby="doors-title"
-        >
-          <div className="me-shell">
-            <h2 id="doors-title">East Bay cities and situations</h2>
-            <p className="me-home-section__intro vc-reading-measure">
-              Open a city page for a named East Bay city. Open a situation page
-              for an inherited or as-is exit. Same cash-offer form on every door.
-            </p>
-
             <div className="me-home-doors-head">
-              <h3 className="me-home-section__subhead">Cities</h3>
-              <Link className="me-home-doors-hub" href={citiesHubHref}>
-                All cities we buy in
+              <h2 id="seller-help-title">Help before the offer</h2>
+              <Link className="me-home-doors-hub" href={guidesHubHref}>
+                {GUIDES_HUB_ALL_LABEL}
               </Link>
             </div>
-            <CityTape cities={CITY_TAPE} />
-
-            <h3 className="me-home-section__subhead">Situations</h3>
-            <ul className="me-home-situation-list">
-              {SITUATIONS.map((item) => (
+            <p className="me-home-section__intro vc-reading-measure">
+              These pages walk through inherited timing, selling as-is, and a
+              short repair-versus-as-is tool. Open any of them from here; they
+              are not tied to one city.
+            </p>
+            <ul className="me-home-guide-list">
+              {SELLER_HELP_SHELF_ITEMS.map((item) => (
                 <li key={item.href}>
                   <a href={item.href}>
-                    <span className="me-home-situation-list__label">
+                    <span className="me-home-guide-list__label">
                       {item.label}
                     </span>
-                    <span className="me-home-situation-list__blurb">
-                      {item.blurb}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <h3 className="me-home-section__subhead">Tools</h3>
-            <ul className="me-home-situation-list">
-              {tools.map((item) => (
-                <li key={item.href}>
-                  <a href={item.href}>
-                    <span className="me-home-situation-list__label">
-                      {item.label}
-                    </span>
-                    <span className="me-home-situation-list__blurb">
+                    <span className="me-home-guide-list__blurb">
                       {item.blurb}
                     </span>
                   </a>
@@ -290,16 +211,25 @@ export default function HomePage() {
         </section>
 
         <section
-          className="me-home-section"
-          aria-labelledby="form-title"
+          className="me-home-section me-home-section--offer"
+          aria-labelledby="home-offer-title"
         >
           <div className="me-shell">
-            <h2 id="form-title">Request a cash offer</h2>
+            <h2 id="home-offer-title">{offerSeo.h1}</h2>
             <p className="me-home-section__intro vc-reading-measure">
-              An operator calls back the same day when we can. Alameda and Contra
-              Costa only.
+              {offerSeo.answerFirst}
             </p>
-            <LeadForm source="web" landingPath="/" />
+            <div className="me-home-offer__cta">
+              <Link className="me-btn me-btn--primary" href={offerHref}>
+                {GET_A_CASH_OFFER_NAV_LABEL}
+              </Link>
+              <Link className="me-btn me-btn--ghost" href={howWeBuyHref}>
+                {HOW_WE_BUY_NAV_LABEL}
+              </Link>
+              <Link className="me-btn me-btn--ghost" href={citiesHubHref}>
+                {CITIES_HUB_NAV_LABEL}
+              </Link>
+            </div>
           </div>
         </section>
       </main>

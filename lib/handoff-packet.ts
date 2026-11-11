@@ -1,5 +1,7 @@
 /** Packet required before status can become mena_handoff. */
 
+import { PENDING_QUALIFY } from "@/lib/lead-intake";
+
 export type HandoffPacketSource = {
   property_address: string;
   motivation: string;
@@ -20,13 +22,18 @@ export const HANDOFF_FIELD_LABELS = {
 
 export type HandoffFieldKey = keyof typeof HANDOFF_FIELD_LABELS;
 
+function hasRealIntakeValue(value: string | null | undefined): boolean {
+  const trimmed = value?.trim() ?? "";
+  return Boolean(trimmed) && trimmed !== PENDING_QUALIFY;
+}
+
 export function handoffPacketMissing(fields: HandoffPacketSource): HandoffFieldKey[] {
   const missing: HandoffFieldKey[] = [];
   if (!fields.property_address?.trim()) missing.push("property_address");
-  if (!fields.motivation?.trim()) missing.push("motivation");
+  if (!hasRealIntakeValue(fields.motivation)) missing.push("motivation");
   if (!fields.numbers_discussed?.trim()) missing.push("numbers_discussed");
   if (!fields.access_photos_notes?.trim()) missing.push("access_photos_notes");
-  if (!fields.timeline?.trim()) missing.push("timeline");
+  if (!hasRealIntakeValue(fields.timeline)) missing.push("timeline");
   if (!fields.contract_file_link?.trim()) missing.push("contract_file_link");
   return missing;
 }

@@ -1,4 +1,5 @@
 import { SITE_NAME } from "./brand";
+import { GUEST_PROOF } from "./guest-proof";
 import {
   LLM_MANIFEST_AUX_PATHS,
   MARKETING_SITEMAP_PATH_SET,
@@ -6,34 +7,46 @@ import {
 import { PAGE_SEO, SEO_ROUTE_KEYS } from "./seo-metadata";
 import { absoluteSiteUrl } from "./site";
 
-export const LLM_MANIFEST_LEAD = `${SITE_NAME}. We buy houses for cash as principal in Alameda and Contra Costa (East Bay). An operator handles seller calls. We own the exit after under contract.`;
+export const LLM_MANIFEST_LEAD = `${SITE_NAME}. We buy houses for cash in ${GUEST_PROOF.buyCitiesLabel}. Send the form when you are ready. We call you, walk through the numbers and the condition of the house, and answer your questions before anything moves forward. If we agree and go under contract, we handle closing. We are the buyer, not your listing agent. Hector Mena leads the team.`;
 
 /** High-intent queries → existing indexable routes only. */
 export const LLM_CORE_QUERY_MAP: { query: string; path: string }[] = [
-  { query: "cash home buyer East Bay", path: "/" },
+  { query: "cash home buyer Hector Mena", path: "/" },
   {
     query: "cities we buy in East Bay",
     path: "/cities-we-buy-in-east-bay",
   },
   { query: "how we buy houses East Bay", path: "/how-we-buy" },
-  { query: "sell house fast Oakland", path: "/sell-house-fast-oakland" },
-  { query: "sell house fast Berkeley", path: "/sell-house-fast-berkeley" },
-  { query: "sell house fast Hayward", path: "/sell-house-fast-hayward" },
-  { query: "sell house fast Fremont", path: "/sell-house-fast-fremont" },
-  { query: "sell house fast Concord", path: "/sell-house-fast-concord" },
+  { query: "about Hector Mena cash buyer", path: "/about" },
+  { query: "get a cash offer East Bay", path: "/get-a-cash-offer" },
+  { query: "help before a cash offer East Bay", path: "/guides" },
+  { query: "sell Oakland house for cash", path: "/sell-house-fast-oakland" },
   {
-    query: "sell house fast Walnut Creek",
-    path: "/sell-house-fast-walnut-creek",
+    query: "sell San Leandro house for cash",
+    path: "/sell-house-fast-san-leandro",
   },
-  { query: "sell house fast Richmond", path: "/sell-house-fast-richmond" },
+  { query: "sell Hayward house for cash", path: "/sell-house-fast-hayward" },
+  {
+    query: "sell Castro Valley house for cash",
+    path: "/sell-house-fast-castro-valley",
+  },
+  {
+    query: "sell San Lorenzo house for cash",
+    path: "/sell-house-fast-san-lorenzo",
+  },
+  { query: "sell Newark house for cash", path: "/sell-house-fast-newark" },
+  { query: "sell Tracy house for cash", path: "/sell-house-fast-tracy" },
   {
     query: "sell inherited house East Bay",
-    path: "/sell-inherited-house-east-bay",
+    path: "/guides/sell-inherited-house-east-bay",
   },
-  { query: "sell house as-is East Bay", path: "/sell-house-as-is-east-bay" },
+  {
+    query: "sell house as-is East Bay",
+    path: "/guides/sell-house-as-is-east-bay",
+  },
   {
     query: "repair or sell as-is East Bay",
-    path: "/repair-or-as-is-east-bay",
+    path: "/tools/repair-or-as-is-east-bay",
   },
 ];
 
@@ -66,15 +79,15 @@ export function buildLlmsTxt(): string {
     "",
     LLM_MANIFEST_LEAD,
     "",
-    "## Canonical pages",
+    "## Pages",
     ...indexable.map((path) => `- ${absoluteSiteUrl(path)}`),
     "",
-    "## Core queries",
+    "## Searches we answer",
     ...LLM_CORE_QUERY_MAP.map(
       (row) => `- ${row.query} → ${absoluteSiteUrl(row.path)}`,
     ),
     "",
-    "## Page summaries",
+    "## Page answers",
     ...pageSummaryLines(),
   ];
   return `${lines.join("\n")}\n`;

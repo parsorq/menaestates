@@ -41,4 +41,23 @@ describe("guest display policy", () => {
       /padding-inline:\s*0\.75rem\s+2\.5rem/,
     );
   });
+
+  it("keeps ask context as identity plus compact next steps", () => {
+    expect(css).toMatch(/\.me-offer-proof--identity\s*\{/s);
+    expect(css).toMatch(/\.me-offer-proof__bio\s*\{/s);
+    expect(css).toMatch(/\.me-offer-next\s*\{/s);
+    expect(css).not.toMatch(/\.me-comment-list--trio\s*\{/);
+  });
+
+  it("centers city lander columns inside the shared wide shell", () => {
+    expect(css).toMatch(
+      /\.me-city-lander__answer-copy\s*\{[^}]*margin-inline:\s*auto/s,
+    );
+    expect(css).toMatch(
+      /\.me-city-lander__proof\s*\{[^}]*margin-inline:\s*auto/s,
+    );
+    expect(css).toMatch(
+      /\.me-city-lander__objections \.me-shell\s*,\s*\.me-city-lander__related \.me-shell\s*\{[^}]*align-items:\s*center/s,
+    );
+  });
 });

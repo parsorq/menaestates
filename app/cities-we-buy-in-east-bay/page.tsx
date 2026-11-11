@@ -5,18 +5,18 @@ import { LeadForm } from "@/app/components/LeadForm";
 import { SiteFooter } from "@/app/components/SiteFooter";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import type { LeadCounty } from "@/lib/counties";
+import {
+  GUIDES_HUB_ALL_LABEL,
+  getGuidesHubHref,
+} from "@/lib/guides-hub";
 import { getHowWeBuyHref, HOW_WE_BUY_NAV_LABEL } from "@/lib/how-we-buy";
 import {
   CITIES_HUB_PATH,
   cityLanders,
-  situationLanders,
   type LanderDefinition,
 } from "@/lib/landers";
-import {
-  getRepairOrAsIsHref,
-  REPAIR_OR_AS_IS_NAV_LABEL,
-} from "@/lib/repair-or-as-is";
 import { citiesHubItemListJsonLd } from "@/lib/schema";
+import { SELLER_HELP_SHELF_ITEMS } from "@/lib/seller-help-shelf";
 import { buildPageMetadata, getPageSeo } from "@/lib/seo-metadata";
 
 export const metadata: Metadata = buildPageMetadata("cities-we-buy-in-east-bay");
@@ -41,11 +41,11 @@ const CITY_CARD_MEDIA: CityCardMedia[] = [
     objectPosition: "42% 40%",
   },
   {
-    slug: "sell-house-fast-berkeley",
-    name: "Berkeley",
-    image: "/cities/berkeley.jpg",
-    alt: "Sather Tower over Berkeley at sunset with the bay beyond",
-    objectPosition: "72% 35%",
+    slug: "sell-house-fast-san-leandro",
+    name: "San Leandro",
+    image: "/cities/san-leandro.jpg",
+    alt: "Aerial view of the San Leandro Marina and shoreline",
+    objectPosition: "58% 42%",
   },
   {
     slug: "sell-house-fast-hayward",
@@ -55,52 +55,46 @@ const CITY_CARD_MEDIA: CityCardMedia[] = [
     objectPosition: "50% 35%",
   },
   {
-    slug: "sell-house-fast-fremont",
-    name: "Fremont",
-    image: "/cities/fremont.jpg",
-    alt: "Lake Elizabeth and Central Park in Fremont with hills beyond",
-    objectPosition: "50% 40%",
+    slug: "sell-house-fast-castro-valley",
+    name: "Castro Valley",
+    image: "/cities/castro-valley.jpg",
+    alt: "Castro Valley hills with Eden Medical Center in view",
+    objectPosition: "52% 38%",
   },
   {
-    slug: "sell-house-fast-concord",
-    name: "Concord",
-    image: "/cities/concord.jpg",
-    alt: "Concord skyline with Mount Diablo in the distance",
-    objectPosition: "48% 35%",
+    slug: "sell-house-fast-san-lorenzo",
+    name: "San Lorenzo",
+    image: "/cities/san-lorenzo.jpg",
+    alt: "Aerial view of San Lorenzo neighborhoods",
+    objectPosition: "48% 45%",
   },
   {
-    slug: "sell-house-fast-walnut-creek",
-    name: "Walnut Creek",
-    image: "/cities/walnut-creek.webp",
-    alt: "Walnut Creek downtown along the BART line",
-    objectPosition: "50% 40%",
+    slug: "sell-house-fast-newark",
+    name: "Newark",
+    image: "/cities/newark.jpg",
+    alt: "Aerial view of Newark beside the Bay salt ponds",
+    objectPosition: "62% 40%",
   },
   {
-    slug: "sell-house-fast-richmond",
-    name: "Richmond",
-    image: "/cities/richmond.jpg",
-    alt: "Bay view from Richmond toward San Francisco",
-    objectPosition: "35% 45%",
+    slug: "sell-house-fast-tracy",
+    name: "Tracy",
+    image: "/cities/tracy.jpg",
+    alt: "Downtown Tracy at dusk",
+    objectPosition: "48% 42%",
   },
 ];
 
 const MEDIA_BY_SLUG = new Map(CITY_CARD_MEDIA.map((row) => [row.slug, row]));
 
-const COUNTY_ORDER: LeadCounty[] = ["Alameda", "Contra Costa"];
-
-const SITUATION_LABELS: Record<string, string> = {
-  "sell-inherited-house-east-bay": "Inherited house",
-  "sell-house-as-is-east-bay": "Sell as-is",
-};
+const COUNTY_ORDER: LeadCounty[] = ["Alameda", "San Joaquin"];
 
 function citiesByCounty(county: LeadCounty): LanderDefinition[] {
   return cityLanders().filter((lander) => lander.defaultCounty === county);
 }
 
 export default function CitiesHubPage() {
-  const situations = situationLanders();
   const howWeBuyHref = getHowWeBuyHref();
-  const repairOrAsIsHref = getRepairOrAsIsHref();
+  const guidesHubHref = getGuidesHubHref();
 
   return (
     <>
@@ -110,7 +104,9 @@ export default function CitiesHubPage() {
         <section className="me-cities-hub__hero" aria-labelledby="cities-hub-title">
           <div className="me-shell">
             <h1 id="cities-hub-title">{hubSeo.h1}</h1>
-            <p className="me-cities-hub__lead vc-reading-measure">{hubSeo.answerFirst}</p>
+            <p className="me-cities-hub__lead vc-reading-measure">
+              {hubSeo.answerFirst}
+            </p>
             <div className="me-cities-hub__cta">
               <a className="me-btn me-btn--primary" href="#offer-form">
                 Request a cash offer
@@ -119,7 +115,7 @@ export default function CitiesHubPage() {
                 {HOW_WE_BUY_NAV_LABEL}
               </Link>
               <Link className="me-btn me-btn--ghost" href="/">
-                East Bay home
+                Back to home
               </Link>
             </div>
           </div>
@@ -138,7 +134,9 @@ export default function CitiesHubPage() {
               <div className="me-shell">
                 <h2 id={headingId}>{county} County</h2>
                 <p className="me-section__intro vc-reading-measure">
-                  City pages for houses we buy in {county} County.
+                  We buy houses in these {county} County cities. Open your city
+                  for what selling there looks like, or request a cash offer and
+                  we will talk it through on the call.
                 </p>
                 <ul className="me-cities-hub__grid">
                   {cities.map((lander) => {
@@ -151,6 +149,7 @@ export default function CitiesHubPage() {
                       <li key={lander.slug} className="me-cities-hub__item">
                         <a className="me-cities-hub__card" href={lander.path}>
                           {media ? (
+                            // eslint-disable-next-line @next/next/no-img-element
                             <img
                               className="me-cities-hub__card-image"
                               src={media.image}
@@ -164,7 +163,9 @@ export default function CitiesHubPage() {
                           ) : null}
                           <span className="me-cities-hub__card-body">
                             <span className="me-cities-hub__card-name">{name}</span>
-                            <span className="me-cities-hub__card-go">Open city page</span>
+                            <span className="me-cities-hub__card-go">
+                              Request a cash offer in {name}
+                            </span>
                           </span>
                         </a>
                       </li>
@@ -177,27 +178,34 @@ export default function CitiesHubPage() {
         })}
 
         <section
-          className="me-cities-hub__situations me-section me-section--muted"
-          aria-labelledby="situations-title"
+          className="me-cities-hub__guides me-section me-section--muted"
+          aria-labelledby="help-before-offer-title"
         >
           <div className="me-shell">
-            <h2 id="situations-title">Situations and tools</h2>
+            <div className="me-home-doors-head">
+              <h2 id="help-before-offer-title">Help before the offer</h2>
+              <Link className="me-home-doors-hub" href={guidesHubHref}>
+                {GUIDES_HUB_ALL_LABEL}
+              </Link>
+            </div>
             <p className="me-section__intro vc-reading-measure">
-              Same footprint. Open a situation page when the exit is inherited or
-              as-is. Use the repair-or-as-is chooser when condition is the open
-              question.
+              These pages walk through inherited timing, selling as-is, and a
+              short repair-versus-as-is tool. Open any of them from here; they
+              are not tied to one city.
             </p>
-            <ul className="me-city-list">
-              {situations.map((lander) => (
-                <li key={lander.slug}>
-                  <a href={lander.path}>
-                    {SITUATION_LABELS[lander.slug] ?? lander.h1}
+            <ul className="me-home-guide-list">
+              {SELLER_HELP_SHELF_ITEMS.map((item) => (
+                <li key={item.href}>
+                  <a href={item.href}>
+                    <span className="me-home-guide-list__label">
+                      {item.label}
+                    </span>
+                    <span className="me-home-guide-list__blurb">
+                      {item.blurb}
+                    </span>
                   </a>
                 </li>
               ))}
-              <li>
-                <Link href={repairOrAsIsHref}>{REPAIR_OR_AS_IS_NAV_LABEL}</Link>
-              </li>
             </ul>
           </div>
         </section>
@@ -208,10 +216,6 @@ export default function CitiesHubPage() {
         >
           <div className="me-shell">
             <h2 id="cities-form-title">Request a cash offer</h2>
-            <p className="me-section__intro vc-reading-measure">
-              An operator calls back the same day when we can. Alameda and Contra Costa
-              only.
-            </p>
             <LeadForm source="cities-hub" landingPath={CITIES_HUB_PATH} />
           </div>
         </section>

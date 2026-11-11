@@ -51,7 +51,7 @@ Status: shipped (Prompt C).
 ```text
 Work in /Users/navszt/forge/menaestates.
 
-One outcome: City + situation landers that feed the same /api/leads endpoint with correct source and landing_path.
+One outcome: City + guide landers that feed the same /api/leads endpoint with correct source and landing_path.
 Frozen: no national SEO farm; East Bay only; same Lead object; no dialer; do not edit forge/mena (Construction).
 
 Ship:

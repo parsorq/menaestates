@@ -107,7 +107,7 @@ export default async function OpsLeadDetailPage({
           </div>
           <div>
             <dt>County</dt>
-            <dd>{lead.county}</dd>
+            <dd>{lead.county || "None"}</dd>
           </div>
           <div>
             <dt>Motivation</dt>

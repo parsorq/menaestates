@@ -18,6 +18,24 @@ const submitIp = readFileSync(
   resolve(__dirname, "../supabase/migrations/20261109240000_leads_submit_ip.sql"),
   "utf8"
 );
+const intakeStage = readFileSync(
+  resolve(__dirname, "../supabase/migrations/20261110150000_leads_intake_stage.sql"),
+  "utf8"
+);
+const optionalAddressCounty = readFileSync(
+  resolve(
+    __dirname,
+    "../supabase/migrations/20261111010000_leads_optional_address_county.sql"
+  ),
+  "utf8"
+);
+const requirePropertyAddress = readFileSync(
+  resolve(
+    __dirname,
+    "../supabase/migrations/20261111020000_leads_require_property_address.sql"
+  ),
+  "utf8"
+);
 
 describe("leads PostgREST lock", () => {
   it("enables RLS and service_role policy", () => {
@@ -47,5 +65,22 @@ describe("leads submit_ip", () => {
   it("adds submit_ip for IP rate limits", () => {
     expect(submitIp).toMatch(/ADD COLUMN IF NOT EXISTS submit_ip TEXT/);
     expect(submitIp).toMatch(/idx_leads_submit_ip_created/);
+  });
+});
+
+describe("leads intake_stage", () => {
+  it("adds contact/qualified stage for staged guest intake", () => {
+    expect(intakeStage).toMatch(/ADD COLUMN IF NOT EXISTS intake_stage TEXT/);
+    expect(intakeStage).toMatch(/contact.*qualified|qualified.*contact/);
+    expect(intakeStage).toMatch(/leads_intake_stage_check/);
+  });
+});
+
+describe("leads optional county", () => {
+  it("drops NOT NULL on county; address required again after", () => {
+    expect(optionalAddressCounty).toMatch(/ALTER COLUMN county DROP NOT NULL/);
+    expect(requirePropertyAddress).toMatch(
+      /ALTER COLUMN property_address SET NOT NULL/
+    );
   });
 });

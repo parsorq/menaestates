@@ -30,18 +30,22 @@ export function organizationJsonLd() {
       },
       {
         "@type": "AdministrativeArea",
-        name: "Contra Costa County",
+        name: "San Joaquin County",
       },
       {
         "@type": "Place",
-        name: "East Bay, California",
+        name: "Oakland, California",
+      },
+      {
+        "@type": "Place",
+        name: "Tracy, California",
       },
     ],
     knowsAbout: [
-      "cash home buyer East Bay",
-      "sell house fast East Bay",
-      "sell inherited house East Bay",
-      "sell house as-is East Bay",
+      "cash home buyer Alameda County",
+      "cash home buyer Tracy",
+      "sell inherited house for cash",
+      "sell house as-is for cash",
     ],
   };
 }

@@ -14,10 +14,7 @@ type CityLanderPageProps = {
   lander: LanderDefinition;
 };
 
-/**
- * Transactional city leaf: city answer, local proof, objections, form.
- * Home owns thesis + doors. Situations stay on SituationLanderPage.
- */
+/** City page: local answer, buy area, questions, form. */
 export function CityLanderPage({ lander }: CityLanderPageProps) {
   const { city } = requireCityLander(lander);
   const related = cityRelatedLinks(lander);
@@ -60,7 +57,7 @@ export function CityLanderPage({ lander }: CityLanderPageProps) {
           aria-labelledby="city-footprint-title"
         >
           <div className="me-shell">
-            <aside className="me-city-lander__proof" aria-label="Local footprint">
+            <aside className="me-city-lander__proof" aria-label="Where we've bought here">
               <h2 id="city-footprint-title">{lander.asideTitle}</h2>
               <p className="vc-reading-measure">{city.footprintBuys}</p>
               <p className="me-city-lander__nearby vc-reading-measure">
@@ -79,8 +76,9 @@ export function CityLanderPage({ lander }: CityLanderPageProps) {
               Common questions in {city.cityName}
             </h2>
             <p className="me-city-lander__intro vc-reading-measure">
-              Title, taxes, condition, and timeline for this city. No fixed-day
-              promises. No fake guarantees.
+              Ask about title, taxes, repairs, and timing for a house here. On
+              the call we walk the numbers and set a close window from those
+              facts. We do not invent a day count first.
             </p>
             <dl className="me-city-lander__faq">
               {city.objections.map((item) => (
@@ -99,10 +97,6 @@ export function CityLanderPage({ lander }: CityLanderPageProps) {
         >
           <div className="me-shell">
             <h2 id="city-form-title">Request a cash offer</h2>
-            <p className="me-city-lander__intro vc-reading-measure">
-              County defaults to {city.countyLabel}. We call back the same day
-              when we can. Alameda and Contra Costa only.
-            </p>
             <LeadForm
               source={lander.source}
               landingPath={lander.path}
@@ -120,8 +114,8 @@ export function CityLanderPage({ lander }: CityLanderPageProps) {
             <div className="me-shell">
               <h2 id="city-related-title">Related pages</h2>
               <p className="me-city-lander__intro vc-reading-measure">
-                Cities hub, how we buy, peer cities, and both situation doors.
-                Same form. Not a full mesh.
+                Other places we buy nearby, how we buy for cash, and inherited
+                or as-is sales.
               </p>
               <ul className="me-city-lander__links">
                 {related.map((link) => (

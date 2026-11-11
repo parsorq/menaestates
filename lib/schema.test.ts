@@ -9,23 +9,26 @@ import {
   webSiteJsonLd,
 } from "./schema";
 import { PAGE_SEO, SEO_ROUTE_KEYS } from "./seo-metadata";
-import { getSituationLanderSubstance } from "./situation-landers";
+import { getGuideLanderSubstance } from "./guide-landers";
 
-/** AEO_ENTRY_MAP verified primaries → title language that must appear. */
+/** Core query → title language that must appear. */
 const PRIMARY_TITLE_FRAGMENTS: Record<string, string[]> = {
-  "/": ["cash home buyer", "East Bay"],
-  "/cities-we-buy-in-east-bay": ["Cities we buy in East Bay"],
-  "/how-we-buy": ["How we buy houses", "East Bay"],
-  "/sell-house-fast-oakland": ["Sell house fast Oakland"],
-  "/sell-house-fast-berkeley": ["Sell house fast Berkeley"],
-  "/sell-house-fast-hayward": ["Sell house fast Hayward"],
-  "/sell-house-fast-fremont": ["Sell house fast Fremont"],
-  "/sell-house-fast-concord": ["Sell house fast Concord"],
-  "/sell-house-fast-walnut-creek": ["Sell house fast Walnut Creek"],
-  "/sell-house-fast-richmond": ["Sell house fast Richmond"],
-  "/sell-inherited-house-east-bay": ["Sell inherited house East Bay"],
-  "/sell-house-as-is-east-bay": ["Sell house as-is East Bay"],
-  "/repair-or-as-is-east-bay": ["Repair or sell as-is", "East Bay"],
+  "/": ["Cash home buyer", "Hector"],
+  "/cities-we-buy-in-east-bay": ["Cities we've bought"],
+  "/how-we-buy": ["How we buy houses"],
+  "/about": ["About Hector Mena"],
+  "/get-a-cash-offer": ["Get a cash offer"],
+  "/sell-house-fast-oakland": ["Sell your Oakland house"],
+  "/sell-house-fast-san-leandro": ["Sell your San Leandro house"],
+  "/sell-house-fast-hayward": ["Sell your Hayward house"],
+  "/sell-house-fast-castro-valley": ["Sell your Castro Valley house"],
+  "/sell-house-fast-san-lorenzo": ["Sell your San Lorenzo house"],
+  "/sell-house-fast-newark": ["Sell your Newark house"],
+  "/sell-house-fast-tracy": ["Sell your Tracy house"],
+  "/guides": ["Help before the offer"],
+  "/guides/sell-inherited-house-east-bay": ["inherited"],
+  "/guides/sell-house-as-is-east-bay": ["as-is"],
+  "/tools/repair-or-as-is-east-bay": ["Repair or sell as-is"],
 };
 
 describe("JSON-LD builders", () => {
@@ -78,12 +81,12 @@ describe("JSON-LD builders", () => {
     expect(schema.mainEntity[0].acceptedAnswer.text).toBe(faqs[0]!.answer);
   });
 
-  it("keeps situation FAQ arrays eligible for FAQPage (3–5 items)", () => {
+  it("keeps guide FAQ arrays eligible for FAQPage (3–5 items)", () => {
     for (const slug of [
       "sell-inherited-house-east-bay",
       "sell-house-as-is-east-bay",
     ] as const) {
-      const substance = getSituationLanderSubstance(slug);
+      const substance = getGuideLanderSubstance(slug);
       expect(substance).toBeDefined();
       const schema = faqPageJsonLd(substance!.faqs);
       expect(schema.mainEntity.length).toBeGreaterThanOrEqual(3);

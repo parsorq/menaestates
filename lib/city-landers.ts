@@ -1,4 +1,5 @@
 import type { LeadCounty } from "./counties";
+import { CITIES_HUB_NAV_LABEL } from "./cities-hub";
 import { HOW_WE_BUY_RELATED_LINK } from "./how-we-buy";
 import {
   CITIES_HUB_PATH,
@@ -20,18 +21,18 @@ export type CityLanderSubstance = {
   slug: string;
   cityName: string;
   county: LeadCounty;
-  /** Short county label for the footprint band. */
+  /** Short county label for the local band. */
   countyLabel: string;
   /** What we buy in this city. */
   footprintBuys: string;
-  /** Nearby cities named honestly (same county or adjacent East Bay). */
+  /** Nearby marketed cities. */
   nearbyCities: string;
   objections: CityObjection[];
 };
 
 /**
- * City-leaf substance only. Situations stay on situation-landers.
- * East Bay freeze: these seven cities, no national farm.
+ * City page substance only. Guides stay on guide-landers.
+ * Marketed set: seven cities (Alameda + Tracy in San Joaquin).
  */
 export const CITY_LANDER_SUBSTANCE: CityLanderSubstance[] = [
   {
@@ -40,57 +41,49 @@ export const CITY_LANDER_SUBSTANCE: CityLanderSubstance[] = [
     county: "Alameda",
     countyLabel: "Alameda County",
     footprintBuys:
-      "Owner-occupied, vacant, and tenant-occupied houses in Oakland when the numbers work. Flatland and hillside stock stay in scope. We buy as principal, not as a listing agent.",
+      "We buy Oakland houses you still live in, vacant houses, and houses with tenants when the numbers work. Flatland and hillside homes both fit. We buy the house for cash, not as a listing agent.",
     nearbyCities:
-      "Nearby Alameda County doors: Berkeley and Hayward. Fremont is farther south in the same county. Contra Costa peers sit across the county line.",
+      "Nearby, we also buy in San Leandro and Hayward. Castro Valley and San Lorenzo sit farther south in Alameda County.",
     objections: [
       {
         title: "Can you buy with title or ownership questions?",
-        body: "An operator reviews title and ownership on the call. Clouded title, co-owner friction, and estate holds do not auto-qualify. We buy when the path to close is clear enough for a cash principal deal.",
+        body: "We review title and ownership on the call. Clouded title, co-owner friction, and estate holds do not clear on their own. We buy when title and access are clear enough for a cash deal, and we leave room for your questions.",
       },
       {
-        title: "Do Oakland transfer taxes change the offer?",
-        body: "Local transfer costs sit in the numbers. We do not quote a fixed tax figure on this page. The cash offer reflects what we can pay after costs and condition.",
+        title: "Do you list my Oakland house?",
+        body: "No. We buy for cash. We do not list your house as an agent for this request.",
       },
       {
-        title: "What if the house needs work?",
-        body: "Condition stays on the table. Deferred maintenance, tired rentals, and unfinished projects still fit when the buy numbers work. We do not require a remodel before close.",
+        title: "How fast can you close in Oakland?",
+        body: "Close timing follows title, access, and whether you still live in the house. Request a cash offer. On the call we set a window that matches those facts. We do not invent a day count first.",
       },
       {
-        title: "How fast is a cash close in Oakland?",
-        body: "Timeline depends on title, occupancy, and access. Request a cash offer. An operator sets a realistic close window on the call. We do not promise a calendar day on a form.",
-      },
-      {
-        title: "What if tenants are still in the house?",
-        body: "Tenant-occupied Oakland houses stay in scope when the lease facts and numbers fit. Tell us occupancy on the form. The callback covers notice and possession.",
+        title: "Can heirs sell an Oakland house for cash?",
+        body: "We buy inherited Oakland houses when title and estate status are clear enough. On the call we cover who can sign, then timeline, and we leave room for questions.",
       },
     ],
   },
   {
-    slug: "sell-house-fast-berkeley",
-    cityName: "Berkeley",
+    slug: "sell-house-fast-san-leandro",
+    cityName: "San Leandro",
     county: "Alameda",
     countyLabel: "Alameda County",
     footprintBuys:
-      "Berkeley houses we can underwrite as principal: owner-occupied, vacant, and some tenant stock when the numbers work. Hills and flats stay in the same callback path.",
+      "We buy San Leandro houses you still live in, vacant houses, and houses with tenants when the numbers work. We buy the house for cash.",
     nearbyCities:
-      "Nearby doors: Oakland and Richmond. Hayward sits farther south in Alameda County. We stay inside Alameda and Contra Costa.",
+      "Nearby, we also buy in Oakland, San Lorenzo, and Hayward.",
     objections: [
       {
-        title: "Do city rules or rental status block a cash sale?",
-        body: "Local rental and occupancy facts matter. An operator asks what is true on the house. We buy as principal when title and possession support a clean close. We do not invent permit outcomes.",
+        title: "Do you buy houses in San Leandro?",
+        body: "Yes. San Leandro is in Alameda County. We buy in Oakland, San Leandro, Hayward, Castro Valley, San Lorenzo, Newark, and Tracy.",
       },
       {
-        title: "Will Berkeley taxes wipe the offer?",
-        body: "Transfer and closing costs enter the offer math. We do not publish a tax schedule here. The cash number you hear is after we account for costs we can see.",
+        title: "Do you buy tenant-occupied San Leandro houses?",
+        body: "Yes when access and the numbers fit. On the call we cover occupancy, your timeline, and condition together so nothing important is skipped.",
       },
       {
-        title: "The house is older and not updated.",
-        body: "Age and finish level are inputs, not automatic refusals. As-is condition fits when the buy numbers work. We do not stage a remodel pitch before close.",
-      },
-      {
-        title: "Can heirs sell a Berkeley house for cash?",
-        body: "Inherited Berkeley houses use the same form. Title and estate status decide the path. An operator covers timeline once those facts are clear.",
+        title: "How do you set the offer?",
+        body: "We review condition, comps, and your timeline on the call. Request a cash offer to start, and bring your questions.",
       },
     ],
   },
@@ -100,152 +93,128 @@ export const CITY_LANDER_SUBSTANCE: CityLanderSubstance[] = [
     county: "Alameda",
     countyLabel: "Alameda County",
     footprintBuys:
-      "Hayward houses as principal when underwriting clears: owner-occupied, vacant, and tenant-occupied stock in mid-county Alameda.",
+      "We buy Hayward houses you still live in, vacant houses, and houses with tenants when the numbers work. Condition stays honest in the offer. We buy for cash, not as a listing agent.",
     nearbyCities:
-      "Nearby Alameda County doors: Oakland and Fremont. Berkeley sits north of Oakland. Contra Costa cities stay on their own landers.",
+      "Nearby, we also buy in San Lorenzo, Castro Valley, and Newark.",
     objections: [
       {
-        title: "The house needs repairs. Can you still buy?",
-        body: "Repairs and deferred maintenance stay in scope when the numbers work. Sell as-is through the same form. We do not require contractor bids before a callback.",
+        title: "Will you buy a Hayward house that needs repairs?",
+        body: "Yes when the cash number works. As-is condition changes the offer, not whether you can send a request. We do not remodel your house before close.",
       },
       {
-        title: "How do you set timeline in Hayward?",
-        body: "Close timing follows title, access, and occupancy. Request a cash offer. An operator gives a window that matches the house, not a national slogan.",
+        title: "Do you list my house?",
+        body: "No. This is a cash buy. We do not list your house as an agent for this request.",
       },
       {
-        title: "What about HOA or shared ownership?",
-        body: "HOA dues, special assessments, and co-owner facts go on the call. We buy when those constraints still leave a workable cash path. Incomplete facts pause the deal.",
-      },
-      {
-        title: "Is Hayward inside your footprint?",
-        body: "Yes. Hayward is Alameda County. We buy in Alameda and Contra Costa only. Outside those counties, the form is the wrong door.",
+        title: "How fast can you close in Hayward?",
+        body: "Close timing follows title, access, and whether you still live in the house. On the call we set a window that matches those facts. We do not invent a day count first.",
       },
     ],
   },
   {
-    slug: "sell-house-fast-fremont",
-    cityName: "Fremont",
+    slug: "sell-house-fast-castro-valley",
+    cityName: "Castro Valley",
     county: "Alameda",
     countyLabel: "Alameda County",
     footprintBuys:
-      "Fremont houses as principal when the buy numbers work: owner-occupied, vacant, and selected tenant stock in southern Alameda County.",
+      "We buy Castro Valley houses you still live in, vacant houses, and some houses with tenants when the numbers work. We buy for cash.",
     nearbyCities:
-      "Nearby Alameda County door: Hayward. Oakland and Berkeley sit farther north. Contra Costa peers use Concord, Walnut Creek, and Richmond landers.",
+      "Nearby, we also buy in Hayward and San Lorenzo.",
     objections: [
       {
-        title: "Do you only buy distressed Fremont houses?",
-        body: "Condition is one input. Updated houses and tired stock both enter the same underwriting. We buy when the cash number works for us as principal.",
+        title: "Do you buy houses in Castro Valley?",
+        body: "Yes. Castro Valley is in Alameda County. It is one of the seven cities we've bought in for cash.",
       },
       {
-        title: "How fast can you close in Fremont?",
-        body: "Speed follows title clarity, access, and seller readiness. An operator sets the close window after the request. We do not lock a day count in marketing copy.",
+        title: "Do you remodel before close?",
+        body: "No. We buy as-is when the numbers fit. Repairs stay in the deal math. We remodel after close on houses we own, not your house before close.",
       },
       {
-        title: "What if the property has unpermitted work?",
-        body: "Unpermitted work and open questions go on the call. We price what we can verify. Unknown scope can stop a cash path until facts land.",
-      },
-      {
-        title: "Can I sell without listing?",
-        body: "Yes. This is a principal cash path, not an agent listing. Request a cash offer. An operator calls you. No listing theater.",
+        title: "What happens after I request an offer?",
+        body: "We call Monday to Friday, 9:00 to 17:00 Pacific Time. We walk numbers, condition, and title on that call, and we leave room for your questions.",
       },
     ],
   },
   {
-    slug: "sell-house-fast-concord",
-    cityName: "Concord",
-    county: "Contra Costa",
-    countyLabel: "Contra Costa County",
+    slug: "sell-house-fast-san-lorenzo",
+    cityName: "San Lorenzo",
+    county: "Alameda",
+    countyLabel: "Alameda County",
     footprintBuys:
-      "Concord houses as principal when underwriting clears: owner-occupied, vacant, and tenant-occupied stock in central Contra Costa.",
+      "We buy San Lorenzo houses you still live in, vacant houses, and houses with tenants when the numbers work. We buy the house for cash.",
     nearbyCities:
-      "Nearby Contra Costa doors: Walnut Creek and Richmond. Alameda peers sit on Oakland, Berkeley, Hayward, and Fremont landers.",
+      "Nearby, we also buy in San Leandro, Hayward, and Castro Valley.",
     objections: [
       {
-        title: "Is Concord in your buy area?",
-        body: "Yes. Concord is Contra Costa County. We buy in Alameda and Contra Costa only. That footprint is the whole East Bay set on this site.",
+        title: "Do you buy houses in San Lorenzo?",
+        body: "Yes. San Lorenzo is in Alameda County and is one of the cities we've bought in for cash.",
       },
       {
-        title: "What if I am behind on payments?",
-        body: "Timeline pressure belongs on the form and the call. We review what we can buy as principal. We do not claim to stop foreclosure or erase debt on this page.",
+        title: "Can I sell if the house needs work?",
+        body: "Yes. Condition stays in the offer. Request a cash offer and we cover repairs on the call, with room for your questions.",
       },
       {
-        title: "Does condition kill the deal?",
-        body: "Condition changes the number, not the door. Repairs stay honest in the offer. We close as-is when the buy math works.",
-      },
-      {
-        title: "Who calls me after I submit?",
-        body: "An operator calls you. Seller calls stay with the operator. After under contract, we own the exit with buyers and funding.",
+        title: "Do you buy inherited San Lorenzo houses?",
+        body: "Yes when title authority is clear enough for a cash close. Request a cash offer, say it is an inherited sale, and we walk who can sign and timing on the call.",
       },
     ],
   },
   {
-    slug: "sell-house-fast-walnut-creek",
-    cityName: "Walnut Creek",
-    county: "Contra Costa",
-    countyLabel: "Contra Costa County",
+    slug: "sell-house-fast-newark",
+    cityName: "Newark",
+    county: "Alameda",
+    countyLabel: "Alameda County",
     footprintBuys:
-      "Walnut Creek houses as principal when the numbers work. Price band and condition both sit in underwriting. We do not claim every listing-priced house fits a cash buy.",
+      "We buy Newark houses you still live in, vacant houses, and some houses with tenants when the numbers work. We buy for cash in southern Alameda County.",
     nearbyCities:
-      "Nearby Contra Costa doors: Concord and Richmond. Alameda County peers stay on their own city landers.",
+      "Nearby, we also buy in Hayward and Tracy.",
     objections: [
       {
-        title: "Will a cash offer match list price?",
-        body: "Cash principal offers price risk, speed, and condition. They are not a retail list match by default. An operator walks the number after your request.",
+        title: "Do you buy houses in Newark?",
+        body: "Yes. Newark is in Alameda County. We buy there along with Oakland, San Leandro, Hayward, Castro Valley, San Lorenzo, and Tracy.",
       },
       {
-        title: "What about local transfer costs?",
-        body: "Closing and transfer costs enter the offer. We do not publish a municipal fee table here. The cash figure accounts for costs we can see.",
+        title: "Do you only buy distressed houses?",
+        body: "No. Updated homes and tired homes can both fit a cash buy when the numbers work. Condition stays honest in the offer.",
       },
       {
-        title: "Can I sell a condo or townhome?",
-        body: "HOA documents, dues, and special assessments decide condo and townhome paths. Tell us the property type on the form. The callback covers what we can buy.",
-      },
-      {
-        title: "How does timeline work here?",
-        body: "Close timing follows title, HOA if any, and access. Request a cash offer. An operator sets a window that matches the house.",
+        title: "How do you set close timing?",
+        body: "Close timing follows title, access, and whether you still live in the house. On the call we set a window that matches those facts. We do not invent a day count first.",
       },
     ],
   },
   {
-    slug: "sell-house-fast-richmond",
-    cityName: "Richmond",
-    county: "Contra Costa",
-    countyLabel: "Contra Costa County",
+    slug: "sell-house-fast-tracy",
+    cityName: "Tracy",
+    county: "San Joaquin",
+    countyLabel: "San Joaquin County",
     footprintBuys:
-      "Richmond houses as principal when underwriting clears: owner-occupied, vacant, and tenant-occupied stock in western Contra Costa.",
+      "We buy Tracy houses you still live in, vacant houses, and houses with tenants when the numbers work. We buy for cash in San Joaquin County.",
     nearbyCities:
-      "Nearby doors: Concord and Berkeley. Walnut Creek sits farther inland in Contra Costa. Oakland is across the county line in Alameda.",
+      "Nearby in Alameda County, we also buy in Newark. Tracy is the San Joaquin city we've bought in for cash.",
     objections: [
       {
-        title: "Do you buy Richmond houses that need work?",
-        body: "Yes when the numbers work. Condition and repairs stay in the offer. We do not require a polish pass before close.",
+        title: "Do you buy houses in Tracy?",
+        body: "Yes. Tracy is in San Joaquin County. It is one of the seven cities we've bought in for cash.",
       },
       {
-        title: "What if title or heirs are involved?",
-        body: "Title and heir facts belong on the call. Inherited Richmond houses use the same form. We buy when the path to close is clear enough.",
+        title: "Do you buy outside Tracy in San Joaquin?",
+        body: "Tracy is our San Joaquin city. Outside our seven cities, we still buy when the house and the numbers fit.",
       },
       {
-        title: "How fast can this move?",
-        body: "Speed is not a slogan. Occupancy, access, and title set the window. An operator states that window after your request.",
-      },
-      {
-        title: "Is Richmond outside Alameda?",
-        body: "Richmond is Contra Costa County. Still inside our East Bay footprint. We buy in Alameda and Contra Costa only.",
-      },
-      {
-        title: "Do you flip leads to other buyers?",
-        body: "No lead auction. Your request stays with us. An operator calls you. After under contract, we own the exit.",
+        title: "How fast can you close in Tracy?",
+        body: "Close timing follows title, access, and whether you still live in the house. On the call we set a window that matches those facts. We do not invent a day count first.",
       },
     ],
   },
 ];
 
 const BY_SLUG = new Map(
-  CITY_LANDER_SUBSTANCE.map((row) => [row.slug, row]),
+  CITY_LANDER_SUBSTANCE.map((row) => [row.slug, row] as const)
 );
 
 export function getCityLanderSubstance(
-  slug: string,
+  slug: string
 ): CityLanderSubstance | undefined {
   return BY_SLUG.get(slug);
 }
@@ -263,7 +232,6 @@ export function requireCityLander(
   return { lander, city };
 }
 
-/** Sanity helper for registry tests. */
 export function cityLanderSlugs(): string[] {
   return CITY_LANDER_SUBSTANCE.map((row) => row.slug);
 }
@@ -276,17 +244,9 @@ export function getCityLanderDefinition(
   return lander;
 }
 
-/**
- * Related doors for a city leaf: cities hub (AEO_ENTRY_MAP), trust room,
- * 2–4 peer cities, and both situation leaves from `relatedSlugs`. Not a
- * full mesh. Hub stays first (Batch 2 graph).
- */
 export function cityRelatedLinks(lander: LanderDefinition): CityRelatedLink[] {
   const links: CityRelatedLink[] = [
-    {
-      href: CITIES_HUB_PATH,
-      label: "Cities we buy in East Bay",
-    },
+    { href: CITIES_HUB_PATH, label: CITIES_HUB_NAV_LABEL },
     {
       href: HOW_WE_BUY_RELATED_LINK.href,
       label: HOW_WE_BUY_RELATED_LINK.label,

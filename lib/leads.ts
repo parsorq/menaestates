@@ -4,6 +4,7 @@ import {
   isHandoffPacketComplete,
   isHttpUrl,
 } from "@/lib/handoff-packet";
+import type { IntakeStage } from "@/lib/lead-intake";
 import { isLeadStatus, type LeadStatus } from "@/lib/lead-status";
 
 export type InsertLeadInput = {
@@ -11,7 +12,7 @@ export type InsertLeadInput = {
   phone: string;
   email?: string | null;
   property_address: string;
-  county: string;
+  county?: string | null;
   motivation: string;
   timeline: string;
   occupancy: string;
@@ -25,6 +26,8 @@ export type InsertLeadInput = {
   notes?: string | null;
   /** Client IP at submit (abuse guards). Not shown on ops. */
   submit_ip?: string | null;
+  /** contact = short first ask; qualified = sell facts present. */
+  intake_stage?: IntakeStage;
 };
 
 export type LeadRow = {
@@ -35,7 +38,7 @@ export type LeadRow = {
   phone: string;
   email: string | null;
   property_address: string;
-  county: string;
+  county: string | null;
   motivation: string;
   timeline: string;
   occupancy: string;
@@ -52,6 +55,7 @@ export type LeadRow = {
   numbers_discussed: string | null;
   access_photos_notes: string | null;
   contract_file_link: string | null;
+  intake_stage: IntakeStage;
 };
 
 export type LeadEventRow = {
@@ -92,7 +96,7 @@ function escapeIlikePattern(value: string): string {
 }
 
 const LEAD_SELECT =
-  "id, created_at, updated_at, full_name, phone, email, property_address, county, motivation, timeline, occupancy, consent_call, consent_call_at, consent_text_version, consent_text, source, landing_path, status, utm, notes, next_action_at, numbers_discussed, access_photos_notes, contract_file_link";
+  "id, created_at, updated_at, full_name, phone, email, property_address, county, motivation, timeline, occupancy, consent_call, consent_call_at, consent_text_version, consent_text, source, landing_path, status, utm, notes, next_action_at, numbers_discussed, access_photos_notes, contract_file_link, intake_stage";
 
 export async function insertLead(
   input: InsertLeadInput
@@ -102,12 +106,16 @@ export async function insertLead(
   const full_name = input.full_name.trim();
   const phone = input.phone.trim();
   const property_address = input.property_address.trim();
-  const county = input.county.trim();
+  const county = (input.county ?? "").trim() || null;
   const motivation = input.motivation.trim();
   const timeline = input.timeline.trim();
   const occupancy = input.occupancy.trim();
+  const intake_stage: IntakeStage = input.intake_stage ?? "qualified";
 
-  if (!full_name || !phone || !property_address || !county) {
+  if (!full_name || !phone || !property_address) {
+    return { error: "Missing required fields." };
+  }
+  if (!motivation || !timeline || !occupancy) {
     return { error: "Missing required fields." };
   }
   if (!input.consent_call) {
@@ -137,6 +145,7 @@ export async function insertLead(
     utm: input.utm ?? {},
     notes: (input.notes ?? "").trim() || null,
     submit_ip: (input.submit_ip ?? "").trim() || null,
+    intake_stage,
   };
 
   const { data, error } = await supabaseAdmin
@@ -150,6 +159,68 @@ export async function insertLead(
     return { error: error.message };
   }
   return { id: data.id as string };
+}
+
+export type QualifyLeadInput = {
+  full_name: string;
+  email?: string | null;
+  motivation: string;
+  timeline: string;
+  occupancy: string;
+  notes?: string | null;
+};
+
+/** Step 2 after contact insert. Does not change phone, address, or consent. */
+export async function qualifyLeadIntake(
+  leadId: string,
+  input: QualifyLeadInput
+): Promise<{ ok: true } | { error: string }> {
+  if (!supabaseAdmin) return { error: "Leads not configured." };
+
+  const full_name = input.full_name.trim();
+  const motivation = input.motivation.trim();
+  const timeline = input.timeline.trim();
+  const occupancy = input.occupancy.trim();
+  if (!full_name || !motivation || !timeline || !occupancy) {
+    return { error: "Missing required fields." };
+  }
+
+  const { error } = await supabaseAdmin
+    .from("leads")
+    .update({
+      full_name,
+      email: (input.email ?? "").trim() || null,
+      motivation,
+      timeline,
+      occupancy,
+      notes: (input.notes ?? "").trim() || null,
+      intake_stage: "qualified" as IntakeStage,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", leadId);
+
+  if (error) {
+    console.error("[leads] qualify failed", error.message, error.code);
+    return { error: error.message };
+  }
+  return { ok: true };
+}
+
+export async function getLeadConsentAt(
+  leadId: string
+): Promise<{ consent_call_at: string } | { error: string }> {
+  if (!supabaseAdmin) return { error: "Leads not configured." };
+  const { data, error } = await supabaseAdmin
+    .from("leads")
+    .select("consent_call_at")
+    .eq("id", leadId)
+    .maybeSingle();
+  if (error) {
+    console.error("[leads] consent lookup failed", error.message);
+    return { error: error.message };
+  }
+  if (!data?.consent_call_at) return { error: "Lead not found." };
+  return { consent_call_at: String(data.consent_call_at) };
 }
 
 export async function listLeads(filters: ListLeadsFilters = {}): Promise<LeadRow[]> {

@@ -58,7 +58,7 @@ function CityTapeSet({
 
 export function CityTape({ cities }: CityTapeProps) {
   return (
-    <div className="me-city-tape" role="region" aria-label="Cities in footprint">
+    <div className="me-city-tape" role="region" aria-label="Cities we've bought in">
       <div className="me-city-tape__track">
         <CityTapeSet cities={cities} />
         <CityTapeSet cities={cities} clone />

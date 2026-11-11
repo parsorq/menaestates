@@ -1,4 +1,4 @@
-export const LEAD_COUNTIES = ["Alameda", "Contra Costa"] as const;
+export const LEAD_COUNTIES = ["Alameda", "San Joaquin"] as const;
 
 export type LeadCounty = (typeof LEAD_COUNTIES)[number];
 

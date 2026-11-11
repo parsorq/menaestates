@@ -15,7 +15,7 @@
 
 ## When this applies
 
-- `app/page.tsx`, `app/how-we-buy/**`, `app/cities-we-buy-in-east-bay/**`, `app/repair-or-as-is-east-bay/**`, `app/(landers)/**`, `app/thank-you/**`, shared guest components, guest CSS
+- `app/page.tsx`, `app/get-a-cash-offer/**`, `app/how-we-buy/**`, `app/cities-we-buy-in-east-bay/**`, `app/guides/**`, `app/tools/**`, `app/(landers)/**`, `app/thank-you/**`, shared guest components, guest CSS
 - Indexable marketing metadata (`lib/seo-metadata.ts`, sitemap, `/llms.txt`)
 
 `/ops/**` is out of guest craft scope unless patterns leak onto marketing routes.
@@ -36,6 +36,6 @@
 | Job | Token / use |
 |-----|-------------|
 | Structure | Hairlines `--line`, brand mark |
-| Primary fill | `--bay` on primary CTA / submit |
+| Primary fill | Navy `--bay` (`#1e3a5f`) on primary CTA / submit (token name retained) |
 | Call / secondary | Ghost outline on header call |
 | Hover / focus | Interactive controls only |

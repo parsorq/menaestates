@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_NAME } from "./brand";
+import { GUEST_PROOF } from "./guest-proof";
 import { LANDERS } from "./landers";
 import { absoluteSiteUrl, canonicalMeta, getMetadataBase } from "./site";
 
@@ -7,13 +8,16 @@ export type SeoRouteKey =
   | "home"
   | "cities-we-buy-in-east-bay"
   | "how-we-buy"
+  | "about"
+  | "get-a-cash-offer"
+  | "guides"
   | "sell-house-fast-oakland"
-  | "sell-house-fast-berkeley"
+  | "sell-house-fast-san-leandro"
   | "sell-house-fast-hayward"
-  | "sell-house-fast-fremont"
-  | "sell-house-fast-concord"
-  | "sell-house-fast-walnut-creek"
-  | "sell-house-fast-richmond"
+  | "sell-house-fast-castro-valley"
+  | "sell-house-fast-san-lorenzo"
+  | "sell-house-fast-newark"
+  | "sell-house-fast-tracy"
   | "sell-inherited-house-east-bay"
   | "sell-house-as-is-east-bay"
   | "repair-or-as-is-east-bay";
@@ -31,50 +35,68 @@ type LanderSeoKey = Exclude<
   | "home"
   | "cities-we-buy-in-east-bay"
   | "how-we-buy"
+  | "about"
+  | "get-a-cash-offer"
+  | "guides"
   | "repair-or-as-is-east-bay"
 >;
 
+const CITIES = GUEST_PROOF.buyCitiesLabel;
+
 const HOME_SEO: PageSeo = {
   path: "/",
-  title: `${SITE_NAME} | East Bay cash home buyer`,
-  description:
-    "Cash home buyer for Alameda and Contra Costa. We buy as principal in Oakland, Berkeley, Hayward, Fremont, Concord, Walnut Creek, Richmond.",
-  h1: "East Bay cash home buyer",
-  answerFirst:
-    "We buy houses for cash as principal in Alameda and Contra Costa. An operator handles seller calls. We own the exit after under contract.",
+  title: `${SITE_NAME} | Cash home buyer · Hector Mena`,
+  description: `We buy houses for cash in ${CITIES}. Request a cash offer when you are ready. We call you, walk through the numbers and the condition of the house, and answer your questions before anything moves forward. If we agree and go under contract, we handle closing. We are the buyer, not your listing agent.`,
+  h1: "Cash home buyer",
+  answerFirst: `We buy houses for cash in ${CITIES}. Request a cash offer when you are ready.`,
 };
 
-/** Catalog / footprint hub. Primary: cities we buy in East Bay (not sell-house-fast). */
 const CITIES_HUB_SEO: PageSeo = {
   path: "/cities-we-buy-in-east-bay",
-  title: "Cities we buy in East Bay",
-  description:
-    "East Bay cities where we buy houses for cash. Alameda and Contra Costa: Oakland, Berkeley, Hayward, Fremont, Concord, Walnut Creek, Richmond.",
-  h1: "Cities we buy in the East Bay",
-  answerFirst:
-    "We buy houses for cash in Alameda and Contra Costa. Oakland, Berkeley, Hayward, Fremont, Concord, Walnut Creek, and Richmond. Open a city page for that market, or request a cash offer.",
+  title: "Cities we've bought in for cash",
+  description: `We've bought houses for cash in ${CITIES}. Those cities are the core (Alameda County and Tracy in San Joaquin County). Outside them, we still buy when the numbers and the house fit. Request a cash offer and we will talk it through on the call.`,
+  h1: "Cities we've bought in for cash",
+  answerFirst: `We've bought houses for cash in ${CITIES}. Those cities are the core. Outside them, we still buy when the numbers and the house fit. Open your city for local detail, or request a cash offer and we will talk it through on the call.`,
 };
 
-/** Trust room. Primary: how we buy houses East Bay (principal, operator split, footprint). */
 const HOW_WE_BUY_SEO: PageSeo = {
   path: "/how-we-buy",
-  title: "How we buy houses East Bay",
-  description:
-    "How we buy East Bay houses for cash as principal. Operator on seller calls. Alameda and Contra Costa footprint. Request a cash offer.",
-  h1: "How we buy houses in the East Bay",
-  answerFirst:
-    "We buy houses for cash as principal in Alameda and Contra Costa. An operator handles seller calls. After under contract, we own the exit. No agent listing theater. No invented reviews on this page.",
+  title: "How we buy houses for cash",
+  description: `We buy houses for cash in ${CITIES}. After you send the form, we call you and walk through what selling this way actually takes: numbers, condition, title, and when you need to move. If we agree and go under contract, we handle closing. We do not list your house as an agent.`,
+  h1: "How we buy houses for cash",
+  answerFirst: `We buy houses for cash in ${CITIES}. After you send the form, we call you and walk through what selling this way actually takes: numbers, condition, title, and when you need to move. If we agree and go under contract, we handle closing. We do not list your house as an agent.`,
 };
 
-/** Free tool. Primary: repair or sell as-is East Bay (decision aid before the form). */
+const ABOUT_SEO: PageSeo = {
+  path: "/about",
+  title: "About Hector Mena",
+  description: `I am Hector Mena. I buy houses for cash in ${CITIES}. I also hold CA Realtor license ${GUEST_PROOF.license.number}. On a cash sale I take the time to explain what happens next, stay reachable with your questions, and leave you room to decide. Call ${GUEST_PROOF.nap.phoneDisplay}.`,
+  h1: "About Hector Mena",
+  answerFirst: `I am Hector Mena. I buy houses for cash in ${CITIES}. I also hold CA Realtor license ${GUEST_PROOF.license.number}. On a cash sale I take the time to explain what happens next, stay reachable with your questions, and leave you room to decide.`,
+};
+
+const GET_A_CASH_OFFER_SEO: PageSeo = {
+  path: "/get-a-cash-offer",
+  title: "Get a cash offer",
+  description: `Request a cash offer for your house in ${CITIES}. Phone, name, and property address first, with call consent. We call you, walk through the numbers and the condition of the house, and answer your questions before anything moves forward.`,
+  h1: "Get a cash offer",
+  answerFirst: `Request a cash offer for your house in ${CITIES}. Phone, name, and property address first. We call you, walk through the numbers and the house, and answer your questions before anything moves forward.`,
+};
+
+const GUIDES_SEO: PageSeo = {
+  path: "/guides",
+  title: "Help before the offer",
+  description: `Short guides and a repair-versus-as-is tool for sellers in ${CITIES}. Inherited timing, selling as-is, and a few questions before you request a cash offer. This is not legal advice.`,
+  h1: "Help before the offer",
+  answerFirst: `Short guides and a repair-versus-as-is tool for sellers in ${CITIES}. Inherited timing, selling as-is, and a few questions before you request a cash offer. This is not legal advice.`,
+};
+
 const REPAIR_OR_AS_IS_SEO: PageSeo = {
-  path: "/repair-or-as-is-east-bay",
-  title: "Repair or sell as-is East Bay",
-  description:
-    "Decide repair vs as-is for an East Bay house sale. Short questions, no login, no price. Cash offer door for Alameda and Contra Costa.",
-  h1: "Repair or sell as-is in the East Bay",
-  answerFirst:
-    "Use this short chooser when the house needs work. We buy as principal in Alameda and Contra Costa. Condition stays in the cash offer. We do not price the house on this page.",
+  path: "/tools/repair-or-as-is-east-bay",
+  title: "Repair or sell as-is",
+  description: `If the house needs work, start with these short questions. They do not set a price. We buy for cash in ${CITIES}, and condition stays honest in the offer. When you are ready, request a cash offer and we will walk the details with you on the call.`,
+  h1: "Repair or sell as-is",
+  answerFirst: `If the house needs work, start with these short questions. They do not set a price. We buy for cash in ${CITIES}, and condition stays honest in the offer. When you are ready, request a cash offer and we will walk the details with you on the call.`,
 };
 
 function landerPageSeo(): Record<LanderSeoKey, PageSeo> {
@@ -96,6 +118,9 @@ export const PAGE_SEO: Record<SeoRouteKey, PageSeo> = {
   home: HOME_SEO,
   "cities-we-buy-in-east-bay": CITIES_HUB_SEO,
   "how-we-buy": HOW_WE_BUY_SEO,
+  about: ABOUT_SEO,
+  "get-a-cash-offer": GET_A_CASH_OFFER_SEO,
+  guides: GUIDES_SEO,
   "repair-or-as-is-east-bay": REPAIR_OR_AS_IS_SEO,
   ...landerPageSeo(),
 };
@@ -104,13 +129,16 @@ export const SEO_ROUTE_KEYS: SeoRouteKey[] = [
   "home",
   "cities-we-buy-in-east-bay",
   "how-we-buy",
+  "about",
+  "get-a-cash-offer",
+  "guides",
   "sell-house-fast-oakland",
-  "sell-house-fast-berkeley",
+  "sell-house-fast-san-leandro",
   "sell-house-fast-hayward",
-  "sell-house-fast-fremont",
-  "sell-house-fast-concord",
-  "sell-house-fast-walnut-creek",
-  "sell-house-fast-richmond",
+  "sell-house-fast-castro-valley",
+  "sell-house-fast-san-lorenzo",
+  "sell-house-fast-newark",
+  "sell-house-fast-tracy",
   "sell-inherited-house-east-bay",
   "sell-house-as-is-east-bay",
   "repair-or-as-is-east-bay",

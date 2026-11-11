@@ -1,4 +1,4 @@
-import { SituationLanderPage } from "@/app/components/SituationLanderPage";
+import { GuidePage } from "@/app/components/GuidePage";
 import type { LanderDefinition } from "@/lib/landers";
 
 type LanderPageProps = {
@@ -7,13 +7,13 @@ type LanderPageProps = {
 
 /**
  * Kind dispatcher for landers. City leaves render via CityLanderPage on
- * the route. Situation leaves use SituationLanderPage.
+ * the route. Guide leaves use GuidePage under /guides/[slug].
  */
 export function LanderPage({ lander }: LanderPageProps) {
-  if (lander.kind === "situation") {
-    return <SituationLanderPage lander={lander} />;
+  if (lander.kind === "guide") {
+    return <GuidePage lander={lander} />;
   }
   throw new Error(
-    `LanderPage only renders situation landers. Got ${lander.kind}: ${lander.slug}`,
+    `LanderPage only renders guide landers. Got ${lander.kind}: ${lander.slug}`,
   );
 }

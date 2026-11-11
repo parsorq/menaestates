@@ -10,12 +10,12 @@ import { CITIES_HUB_PATH, CITY_LANDER_PATHS, LANDERS } from "./landers";
 
 const TAPE_CITIES = [
   "Oakland",
-  "Berkeley",
+  "San Leandro",
   "Hayward",
-  "Fremont",
-  "Concord",
-  "Walnut Creek",
-  "Richmond",
+  "Castro Valley",
+  "San Lorenzo",
+  "Newark",
+  "Tracy",
 ] as const;
 
 describe("city lander leaves", () => {
@@ -56,22 +56,29 @@ describe("city lander leaves", () => {
     expect(leads.size).toBe(7);
   });
 
-  it("maps Alameda and Contra Costa counties correctly", () => {
-    const alameda = ["Oakland", "Berkeley", "Hayward", "Fremont"];
-    const contraCosta = ["Concord", "Walnut Creek", "Richmond"];
+  it("maps Alameda and San Joaquin counties correctly", () => {
+    const alameda = [
+      "Oakland",
+      "San Leandro",
+      "Hayward",
+      "Castro Valley",
+      "San Lorenzo",
+      "Newark",
+    ];
+    const sanJoaquin = ["Tracy"];
     for (const name of alameda) {
       const slugPath = CITY_LANDER_PATHS[name];
       const lander = LANDERS.find((entry) => entry.path === slugPath);
       expect(lander?.defaultCounty).toBe("Alameda");
     }
-    for (const name of contraCosta) {
+    for (const name of sanJoaquin) {
       const slugPath = CITY_LANDER_PATHS[name];
       const lander = LANDERS.find((entry) => entry.path === slugPath);
-      expect(lander?.defaultCounty).toBe("Contra Costa");
+      expect(lander?.defaultCounty).toBe("San Joaquin");
     }
   });
 
-  it("opens related doors with hub, trust, peers, and situations", () => {
+  it("opens related doors with hub, trust, peers, and guides", () => {
     for (const lander of LANDERS.filter((entry) => entry.kind === "city")) {
       const related = cityRelatedLinks(lander);
       expect(related[0]?.href).toBe(CITIES_HUB_PATH);
@@ -79,18 +86,18 @@ describe("city lander leaves", () => {
       const cityLinks = related.filter((link) =>
         link.href.startsWith("/sell-house-fast-"),
       );
-      const situations = related.filter(
+      const guides = related.filter(
         (link) =>
           link.href !== CITIES_HUB_PATH &&
           link.href !== HOW_WE_BUY_PATH &&
           !link.href.startsWith("/sell-house-fast-"),
       );
       expect(cityLinks.length).toBe(2);
-      expect(situations.length).toBe(2);
+      expect(guides.length).toBe(2);
       expect(lander.source).toMatch(/^lander-/);
-      expect(lander.path).toBe(CITY_LANDER_PATHS[
-        getCityLanderSubstance(lander.slug)!.cityName
-      ]);
+      expect(lander.path).toBe(
+        CITY_LANDER_PATHS[getCityLanderSubstance(lander.slug)!.cityName],
+      );
     }
   });
 });

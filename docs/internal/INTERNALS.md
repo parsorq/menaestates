@@ -13,6 +13,7 @@ Installed on first touch. Studio bars apply here. Guest-only cash-buyer delivery
 | House | `.cursor/rules/house.mdc` | Studio house rule bound; this product does not ship declaration-bar chrome |
 | Rooms | `.cursor/rules/rooms.mdc` | Jobs, not screens |
 | Tone | `docs/VOICE.md` + tone audit | Verb-cover. No sales theater |
+| Guest Voice guard | `lib/guest-voice.test.ts` | Banned sitemap / IA nouns on seller-visible copy |
 | Principles | house + rooms + design craft | HIG, accessibility, dignified and clear |
 | Doors | Guest form + optional phone | Thin `/ops` is staff inbox, not Acceso Panel |
 | Access | `.cursor/rules/parsorq-maintenance.mdc` | `parsorq@gmail.com` on gated surfaces |

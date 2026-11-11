@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { getHowWeBuyHref } from "@/lib/how-we-buy";
+import { getLanderBySlug } from "@/lib/landers";
 
 type Condition = "light" | "heavy" | null;
 type FundRepairs = "yes" | "no" | "unsure" | null;
@@ -9,27 +11,51 @@ type Pace = "soon" | "flexible" | null;
 
 type OutcomeId = "as-is" | "condition-in-offer" | "talk";
 
+type OutcomeAction = {
+  href: string;
+  label: string;
+  primary?: boolean;
+};
+
 type Outcome = {
   id: OutcomeId;
   title: string;
   body: string;
+  actions: OutcomeAction[];
 };
+
+const AS_IS_HREF =
+  getLanderBySlug("sell-house-as-is-east-bay")?.path ??
+  "/guides/sell-house-as-is-east-bay";
+
+const HOW_WE_BUY_HREF = getHowWeBuyHref();
 
 const OUTCOMES: Record<OutcomeId, Outcome> = {
   "as-is": {
     id: "as-is",
-    title: "Lean as-is",
-    body: "Heavy condition and a short timeline usually stay in an as-is cash exit. Name the repairs on the form. We do not require a remodel before close when the numbers work.",
+    title: "As-is usually fits",
+    body: "Heavy condition and a short timeline usually stay in an as-is cash sale. Name the repairs on the form. We do not require a remodel before close when the numbers work. Financed buyers often face lender repair conditions after an inspection; a cash buy with us does not use that mortgage process.",
+    actions: [
+      { href: "#offer-form", label: "Request a cash offer", primary: true },
+      { href: AS_IS_HREF, label: "Sell a house as-is" },
+    ],
   },
   "condition-in-offer": {
     id: "condition-in-offer",
     title: "Condition stays in the offer",
-    body: "Light work or funded repairs can change the cash number. The door is the same form. We walk condition on the operator call. We do not appraise the house on this page.",
+    body: "Light work or funded repairs can change the cash number. Request a cash offer either way. On the call we walk condition with you.",
+    actions: [
+      { href: "#offer-form", label: "Request a cash offer", primary: true },
+      { href: HOW_WE_BUY_HREF, label: "How we buy" },
+    ],
   },
   talk: {
     id: "talk",
     title: "Talk it through on the call",
-    body: "When repair spend and timing are mixed, the operator call is the next step. Bring what you know about the house. We stay in Alameda and Contra Costa only.",
+    body: "When repair spend and timing are mixed, the next step is the call. Bring what you know about the house. Our core cities are Oakland, San Leandro, Hayward, Castro Valley, San Lorenzo, Newark, and Tracy. Outside them, we still buy when the house and the numbers fit.",
+    actions: [
+      { href: "#offer-form", label: "Request a cash offer", primary: true },
+    ],
   },
 };
 
@@ -81,7 +107,7 @@ export function RepairOrAsIsChooser() {
       <ol className="me-tool-chooser__steps">
         <li className="me-tool-chooser__step">
           <h3 className="me-tool-chooser__prompt">How heavy is the condition?</h3>
-          <div className="me-tool-chooser__options" role="group" aria-label="Condition load">
+          <div className="me-tool-chooser__options" role="group" aria-label="House condition">
             <button
               type="button"
               className={
@@ -195,15 +221,29 @@ export function RepairOrAsIsChooser() {
             {outcome.body}
           </p>
           <div className="me-tool-chooser__outcome-actions">
-            <a className="me-btn me-btn--primary" href="#offer-form">
-              Request a cash offer
-            </a>
-            <Link
-              className="me-btn me-btn--ghost"
-              href="/sell-house-as-is-east-bay"
-            >
-              Sell house as-is East Bay
-            </Link>
+            {outcome.actions.map((action) =>
+              action.href.startsWith("#") ? (
+                <a
+                  key={action.href + action.label}
+                  className={
+                    action.primary ? "me-btn me-btn--primary" : "me-btn me-btn--ghost"
+                  }
+                  href={action.href}
+                >
+                  {action.label}
+                </a>
+              ) : (
+                <Link
+                  key={action.href + action.label}
+                  className={
+                    action.primary ? "me-btn me-btn--primary" : "me-btn me-btn--ghost"
+                  }
+                  href={action.href}
+                >
+                  {action.label}
+                </Link>
+              ),
+            )}
             <button
               type="button"
               className="me-tool-chooser__reset"
@@ -215,8 +255,8 @@ export function RepairOrAsIsChooser() {
         </div>
       ) : (
         <p className="me-tool-chooser__hint vc-reading-measure">
-          Answer all three. Then we point you at as-is, condition in the offer,
-          or the operator call. No price on this page.
+          Answer all three. Then we say whether as-is, condition in the offer,
+          or talking it through on the call fits.
         </p>
       )}
     </div>

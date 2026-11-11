@@ -19,7 +19,9 @@ A question is not this pass. If they did not ask you to change the UI or run an 
 2. **Forge hub:** `/Users/navszt/forge/docs/standards/DESIGN_CRAFT.md`.
 3. Else **`~/.cursor/operator/design-craft.md`**.
 
-**Canvas (gates + air):** `display-gates.mdc` resolve chain on every layout or inset change (guest or Panel).
+**Emil polish lens (every workspace):** Read **`~/.cursor/skills/emil-design-eng/SKILL.md`** (operator install) plus **`FORGE.md`** in that folder. Apply motion, press/hover, form-state, and restraint polish. Canvas (gates + air): `display-gates.mdc` resolve chain on every layout or inset change (guest or Panel). Motion checkpoints: **`INTERACTIVE_AFFORDANCE.md`** § Motion (I6–I8).
+
+**Conflict (global):** If Emil and forge conflict, one-line note in chat, then prefer forge (house → `DESIGN_CRAFT` / affordance) for **every** delivery. Full order in `emil-design-eng/FORGE.md`.
 
 Studio SSOT edits belong in **`/Users/navszt/forge/docs/standards/`** (`DESIGN_CRAFT.md`, `DISPLAY_GATES.md`, and related basenames); mirror `~/.cursor/operator/` in the same pass.
 
@@ -28,6 +30,7 @@ Studio SSOT edits belong in **`/Users/navszt/forge/docs/standards/`** (`DESIGN_C
 Add to **Standards read** in chat when scope is delivered UI:
 
 - Craft SSOT (path used)
+- Emil skill path (`~/.cursor/skills/emil-design-eng/SKILL.md`)
 - Repo blueprint / `DELIVERED_UI.md` when present
 - `~/.cursor/skills/rooms-audit/SKILL.md` beats for **job** and **constraints** (place, not template layout)
 
@@ -35,7 +38,7 @@ Add to **Standards read** in chat when scope is delivered UI:
 
 ## Before calling the pass done
 
-Self-check against craft **§ Anti-slop**, **§ Layout**, **§ Motion** (and **§ Copy slop** when copy changed). If any item in scope would FAIL, fix in this pass or stop and report the conflict. Do not ship known slop because the task did not say "audit." **Severity traffic-light rows** (tinted header band + colored rail + uppercase severity on read-only ranked lines) are automatic fail per craft § Anti-slop.
+Self-check against craft **§ Anti-slop**, **§ Layout**, **§ Motion** (and **§ Copy slop** when copy changed), plus Emil polish (no `transition: all`, no `scale(0)`, press feedback, fine-pointer hover gate, form state parity). If any item in scope would FAIL, fix in this pass or stop and report the conflict. Do not ship known slop because the task did not say "audit." **Severity traffic-light rows** (tinted header band + colored rail + uppercase severity on read-only ranked lines) are automatic fail per craft § Anti-slop.
 
 **Reading measure (§ Type floor):** Prose paragraphs and answer-first leads use `var(--reading-measure)` or `.vc-reading-measure`. Shell max-width alone (`--content-standard`, `--content-wide`) is **FAIL** for narrative copy. Tables and scan blocks stay full width inside the shell.
 
@@ -45,6 +48,6 @@ Demos and flagged prototypes (`SMR_PPI_DEMO`, v0.5 names) are **not** exempt.
 
 ## Precedence
 
-Operator instruction → repo blueprint / voice / tokens / INSTALL exception → **forge house** (`/Users/navszt/forge/docs/standards/LANDING_VISUALS.md`, `GATEWAY_UX.md` when adopted) → **DESIGN_CRAFT** → model default.
+Operator instruction → repo blueprint / voice / tokens / INSTALL exception → **forge house** (`/Users/navszt/forge/docs/standards/LANDING_VISUALS.md`, `GATEWAY_UX.md` when adopted) → **DESIGN_CRAFT** (+ affordance motion) → Emil skill → model default.
 
 Craft is **not** forge house chrome. Client brand colors stay; generic SaaS composition goes.

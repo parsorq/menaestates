@@ -33,14 +33,16 @@ export async function sendLeadAlert(
           .join("\n")
       : "  (none)";
 
+  const stage = input.intake_stage ?? "qualified";
   const text = [
     `New seller lead (${leadId})`,
     "",
+    `Intake stage: ${stage}`,
     `Name: ${input.full_name}`,
     `Phone: ${input.phone}`,
     `Email: ${input.email || "(none)"}`,
-    `Address: ${input.property_address}`,
-    `County: ${input.county}`,
+    `Address: ${input.property_address || "(none)"}`,
+    `County: ${input.county || "(none)"}`,
     `Motivation: ${input.motivation}`,
     `Timeline: ${input.timeline}`,
     `Occupancy: ${input.occupancy}`,
@@ -53,10 +55,14 @@ export async function sendLeadAlert(
     utmLines,
   ].join("\n");
 
+  const subjectPlace =
+    input.property_address?.trim() ||
+    input.county?.trim() ||
+    input.phone;
   const { error } = await resend.emails.send({
     from,
     to: [to],
-    subject: `New lead: ${input.full_name} · ${input.county}`,
+    subject: `New lead (${stage}): ${input.full_name} · ${subjectPlace}`,
     text,
   });
 
@@ -87,8 +93,8 @@ export async function sendMenaHandoffAlert(
     `Name: ${lead.full_name}`,
     `Phone: ${lead.phone}`,
     `Email: ${lead.email || "(none)"}`,
-    `Address: ${lead.property_address}`,
-    `County: ${lead.county}`,
+    `Address: ${lead.property_address || "(none)"}`,
+    `County: ${lead.county || "(none)"}`,
     `Motivation: ${lead.motivation}`,
     `Seller timeline: ${lead.timeline}`,
     `Occupancy: ${lead.occupancy}`,
@@ -103,7 +109,7 @@ export async function sendMenaHandoffAlert(
   const { error } = await resend.emails.send({
     from,
     to: [to],
-    subject: `Under contract: ${lead.full_name} · ${lead.property_address}`,
+    subject: `Under contract: ${lead.full_name} · ${lead.property_address || lead.phone}`,
     text,
   });
 
