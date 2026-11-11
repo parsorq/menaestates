@@ -13,7 +13,7 @@ export default async function OpsDeniedPage({
 
   return (
     <main className="me-ops">
-      <div className="me-shell-narrow">
+      <div className="me-ops__shell">
         <h1 style={{ marginTop: 0 }}>Access denied</h1>
         <p style={{ color: "var(--ink-soft)" }}>
           {email

@@ -11,7 +11,7 @@ export const metadata: Metadata = buildPageMetadata("get-a-cash-offer");
 
 const offerSeo = getPageSeo("get-a-cash-offer");
 
-/** Dedicated ask: form first, with compact who-buys + next steps beside it. */
+/** Dedicated ask: proof + next, then form. Laptop split puts form beside context. */
 export default function GetACashOfferPage() {
   return (
     <>

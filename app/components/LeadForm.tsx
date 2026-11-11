@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GuestProofNearAsk } from "@/app/components/GuestProofNearAsk";
 import { CONSENT_CALL_TEXT } from "@/lib/consent";
@@ -24,7 +24,10 @@ export type LeadFormProps = {
   /** Silent county when the lander already knows it. Not shown on the form. */
   defaultCounty?: string;
   defaultMotivation?: string;
-  /** Focus Full name on mount (dedicated ask page). */
+  /**
+   * Prefer focusing Full name on mount (dedicated ask page).
+   * Skipped on coarse pointer or short viewports so proof + next stay first (R8).
+   */
   autoFocusName?: boolean;
 };
 
@@ -43,6 +46,7 @@ export function LeadForm({
   autoFocusName = false,
 }: LeadFormProps) {
   const router = useRouter();
+  const nameRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState<FormState>({
     full_name: "",
     phone: "",
@@ -59,6 +63,14 @@ export function LeadForm({
     if (typeof window === "undefined") return "/";
     return window.location.pathname || "/";
   }, [landingPath]);
+
+  useEffect(() => {
+    if (!autoFocusName) return;
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const short = window.matchMedia("(max-height: 700px)").matches;
+    if (coarse || short) return;
+    nameRef.current?.focus({ preventScroll: true });
+  }, [autoFocusName]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -147,11 +159,11 @@ export function LeadForm({
           <div className="me-field">
             <label htmlFor="full_name">Full name</label>
             <input
+              ref={nameRef}
               id="full_name"
               name="full_name"
               autoComplete="name"
               required
-              autoFocus={autoFocusName}
               value={form.full_name}
               onChange={(e) => update("full_name", e.target.value)}
             />

@@ -35,7 +35,7 @@ export default async function OpsLoginPage({
 
   return (
     <main className="me-ops">
-      <div className="me-shell-narrow">
+      <div className="me-ops__shell">
         <h1 style={{ marginTop: 0 }}>Ops login</h1>
         <p style={{ color: "var(--ink-soft)" }}>
           Google sign-in for the lead list. Allowlisted operators only. Not a full Panel.

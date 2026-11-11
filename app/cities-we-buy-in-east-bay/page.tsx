@@ -116,7 +116,7 @@ export default function CitiesHubPage() {
               {hubSeo.answerFirst}
             </p>
             <div className="me-cities-hub__cta">
-              <a className="me-btn me-btn--primary" href="#offer-form">
+              <a className="me-btn me-btn--primary" href="#cities-hub-offer">
                 Request a cash offer
               </a>
               <Link className="me-btn me-btn--ghost" href={howWeBuyHref}>
@@ -225,6 +225,7 @@ export default function CitiesHubPage() {
         </section>
 
         <section
+          id="cities-hub-offer"
           className="me-cities-hub__form me-section"
           aria-labelledby="cities-form-title"
         >

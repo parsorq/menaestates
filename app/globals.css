@@ -81,6 +81,10 @@ a {
   margin-inline: auto;
 }
 
+.me-thank-you {
+  min-width: 0;
+}
+
 .me-thank-you__title {
   margin: 0 0 0.85rem;
   font-family: var(--font-display), Georgia, serif;
@@ -88,6 +92,7 @@ a {
   line-height: 1.1;
   color: var(--bay-deep);
   max-width: var(--reading-measure);
+  text-wrap: balance;
 }
 
 .me-thank-you__lead {
@@ -98,6 +103,18 @@ a {
 .me-thank-you__follow {
   margin: 0 0 1.5rem;
   color: var(--ink-soft);
+}
+
+.me-thank-you .me-btn {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 389px) {
+  .me-thank-you .me-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* City transactional leaves (not home hero + steps + tape).
@@ -190,6 +207,35 @@ a {
 .me-city-lander__form,
 .me-city-lander__related {
   padding-block: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+/* In-page ask (#city-offer): clear sticky SiteHeader. Tall wrap ~130px at 744. */
+.me-city-lander__form {
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 1.25rem
+  );
+}
+
+/*
+  Nested LeadForm #offer-form sits under the city form title. Deep links to
+  #offer-form must clear title + sticky bar without touching R2-G field chrome.
+*/
+.me-city-lander .me-offer-ask {
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 4.25rem
+  );
+}
+
+@media (min-width: 744px) {
+  .me-city-lander__form {
+    scroll-margin-top: calc(8.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .me-city-lander .me-offer-ask {
+    scroll-margin-top: calc(
+      8.5rem + env(safe-area-inset-top, 0px) + 2.75rem
+    );
+  }
 }
 
 .me-city-lander__objections {
@@ -496,14 +542,16 @@ a {
 @media (min-width: 744px) {
   .me-site-header__inner {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem 1rem;
   }
 
+  /* Brand keeps its nowrap width; nav/actions wrap first (no paint through Cities). */
   .me-brand {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
+    min-width: max-content;
     overflow: visible;
     text-overflow: clip;
   }
@@ -631,6 +679,10 @@ a {
 }
 
 .me-home-cities {
+  /* Clears sticky header on #buy-cities (hero Cities control). */
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 1rem
+  );
   padding-block: clamp(1.25rem, 3.5vw, 1.75rem) clamp(2.75rem, 7vw, 4.75rem);
 }
 
@@ -692,6 +744,10 @@ a {
   flex-direction: column;
   align-items: stretch;
   gap: 0.75rem;
+  /* R1-B R5: first CTA must clear sticky header on scroll-into-view. */
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 1rem
+  );
 }
 
 .me-home-hero__cta .me-btn {
@@ -732,6 +788,9 @@ a {
   flex-direction: column;
   align-items: stretch;
   gap: 0.75rem;
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 1rem
+  );
 }
 
 .me-home-offer__cta .me-btn {
@@ -748,6 +807,15 @@ a {
 
   .me-home-offer__cta .me-btn {
     width: auto;
+  }
+}
+
+/* Tall wrap header at tablet; higher specificity beats CSS bundler reorder. */
+@media (min-width: 744px) and (max-width: 1031px) {
+  .me-home-hero .me-home-hero__cta,
+  .me-home-cities,
+  .me-home-section--offer .me-home-offer__cta {
+    scroll-margin-top: calc(8.5rem + env(safe-area-inset-top, 0px));
   }
 }
 
@@ -1509,6 +1577,7 @@ a.me-city-card:active {
   color: var(--bay-deep);
   max-width: var(--reading-measure);
   text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .me-guides-hub__lead {
@@ -1518,14 +1587,34 @@ a.me-city-card:active {
   font-size: 1.125rem;
 }
 
+/* Full-width CTA stack below 744 (display.md lock; mirrors leaf .me-hero__cta). */
 .me-guides-hub__cta {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.75rem;
+}
+
+.me-guides-hub__cta .me-btn {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 744px) {
+  .me-guides-hub__cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .me-guides-hub__cta .me-btn {
+    width: auto;
+  }
 }
 
 .me-tool-chooser {
   max-width: var(--content-standard);
+  min-width: 0;
 }
 
 .me-tool-chooser__steps {
@@ -1539,6 +1628,7 @@ a.me-city-card:active {
 .me-tool-chooser__step {
   padding: 1rem 0 0;
   border-top: 1px solid var(--line);
+  min-width: 0;
 }
 
 .me-tool-chooser__prompt {
@@ -1555,13 +1645,7 @@ a.me-city-card:active {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-@media (min-width: 744px) {
-  .me-tool-chooser__options {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+  min-width: 0;
 }
 
 .me-tool-chooser__option {
@@ -1575,13 +1659,28 @@ a.me-city-card:active {
   border-radius: 0;
   padding: 0.75rem 1rem;
   min-height: 44px;
-  flex: 1 1 12rem;
+  /* Column mode: content height. Row wrap at 744+ uses 12rem basis. */
+  flex: 0 0 auto;
+  width: 100%;
+  box-sizing: border-box;
   touch-action: manipulation;
   transition:
     border-color var(--duration-color) ease,
     background var(--duration-color) ease,
     box-shadow var(--duration-color) ease,
     transform var(--duration-press) var(--ease-out);
+}
+
+@media (min-width: 744px) {
+  .me-tool-chooser__options {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .me-tool-chooser__option {
+    flex: 1 1 12rem;
+    width: auto;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1615,6 +1714,8 @@ a.me-city-card:active {
   border: 1px solid var(--line);
   border-top: 2px solid var(--bay);
   background: var(--paper-deep);
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .me-tool-chooser__outcome-title {
@@ -1636,6 +1737,31 @@ a.me-city-card:active {
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
+  min-width: 0;
+}
+
+.me-tool-chooser__outcome-actions .me-btn {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 389px) {
+  .me-tool-chooser__outcome {
+    padding: 1rem 0.85rem;
+  }
+
+  .me-tool-chooser__outcome-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .me-tool-chooser__outcome-actions .me-btn {
+    width: 100%;
+    justify-content: center;
+    /* nowrap would force page overflow at 229; stack + wrap label instead */
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 .me-tool-chooser__reset {
@@ -1702,6 +1828,13 @@ a.me-city-card:active {
 
 .me-cities-hub__county:first-of-type {
   padding-top: clamp(2rem, 5vw, 3.25rem);
+}
+
+/* In-page CTA target: clear sticky SiteHeader (tallest ~135px at 744). */
+.me-cities-hub__form {
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 5rem
+  );
 }
 
 .me-cities-hub__grid {
@@ -1841,6 +1974,11 @@ a.me-city-card:active {
   gap: 1.25rem;
   max-width: min(40rem, 100%);
   min-width: 0;
+  /* Sticky header + soft keyboard: hash jump and focus stay in the bay. */
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 1rem
+  );
+  scroll-margin-bottom: max(12rem, env(safe-area-inset-bottom, 0px));
 }
 
 .me-offer-ask__split {
@@ -1860,8 +1998,29 @@ a.me-city-card:active {
   min-width: 0;
 }
 
-/* Form on the right once the shell has room. Stack below this. */
-@media (min-width: 900px) {
+.me-offer-ask .me-field input,
+.me-offer-ask .me-field select,
+.me-offer-ask .me-field textarea,
+.me-offer-ask .me-form__commit {
+  scroll-margin-top: calc(
+    var(--header-h) + env(safe-area-inset-top, 0px) + 1rem
+  );
+  scroll-margin-bottom: max(12rem, env(safe-area-inset-bottom, 0px));
+}
+
+/* Tall wrap header at tablet (same band as home / city lander). */
+@media (min-width: 744px) and (max-width: 1031px) {
+  .me-offer-ask,
+  .me-offer-ask .me-field input,
+  .me-offer-ask .me-field select,
+  .me-offer-ask .me-field textarea,
+  .me-offer-ask .me-form__commit {
+    scroll-margin-top: calc(8.5rem + env(safe-area-inset-top, 0px));
+  }
+}
+
+/* Laptop gate only: 1032 stays a stacked tablet ask (DISPLAY_GATES). */
+@media (min-width: 1280px) {
   .me-offer-ask {
     max-width: none;
   }
@@ -2080,6 +2239,7 @@ a.me-city-card:active {
   display: grid;
   gap: 1.35rem;
   max-width: min(42rem, 100%);
+  min-width: 0;
 }
 
 .me-about__hero .me-about {
@@ -2096,6 +2256,7 @@ a.me-city-card:active {
 .me-about__photo {
   width: 8.25rem;
   height: 8.25rem;
+  max-width: 100%;
   border-radius: 0.4rem;
   object-fit: cover;
   border: 1px solid var(--line);
@@ -2214,7 +2375,8 @@ a.me-city-card:active {
   max-width: var(--reading-measure);
 }
 
-@media (min-width: 390px) {
+/* Three-up only when each cell has real measure; 390 squeezes labels. */
+@media (min-width: 744px) {
   .me-about__stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.85rem;
@@ -2268,6 +2430,18 @@ a.me-city-card:active {
   margin-top: 0.35rem;
   /* Same column as stats / NAP / career prose. */
   max-width: var(--reading-measure);
+  min-width: 0;
+  width: 100%;
+}
+
+.me-about .me-comment {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.me-about .me-comment__quote {
+  overflow-wrap: break-word;
 }
 
 @media (max-width: 389px) {
@@ -2596,11 +2770,24 @@ a.me-city-card:active {
   outline-offset: 2px;
 }
 
+/* Thin ops inbox (not guest Panel). Usable from 390; login/denied use .me-ops__shell. */
 .me-ops {
   min-height: 100dvh;
+  max-width: 100%;
   background: #f1f3f6;
   color: var(--ink);
-  padding: var(--ui-gutter);
+  padding-block: max(var(--ui-gutter), env(safe-area-inset-top, 0px))
+    max(var(--ui-gutter), env(safe-area-inset-bottom, 0px));
+  padding-inline: var(--edge-inline);
+}
+
+/* Login/denied column inside padded .me-ops (do not reuse guest shell-narrow width math). */
+.me-ops__shell,
+.me-ops .me-shell-narrow {
+  width: min(var(--content-standard), 100%);
+  max-width: 100%;
+  min-width: 0;
+  margin-inline: 0;
 }
 
 .me-ops__bar {
@@ -2610,10 +2797,12 @@ a.me-city-card:active {
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
+  min-width: 0;
 }
 
 .me-ops table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   background: #fff;
   border: 1px solid var(--line);
@@ -2626,6 +2815,8 @@ a.me-city-card:active {
   text-align: left;
   vertical-align: top;
   font-size: 0.92rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .me-ops th {
@@ -2646,8 +2837,16 @@ a.me-city-card:active {
 .me-ops input,
 .me-ops textarea,
 .me-ops button {
-  min-height: 2.25rem;
+  min-height: 2.75rem;
+  max-width: 100%;
   font: inherit;
+}
+
+.me-ops input,
+.me-ops textarea,
+.me-ops select {
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .me-ops__filters {
@@ -2659,12 +2858,15 @@ a.me-city-card:active {
   padding: 0.85rem 0.9rem;
   background: #fff;
   border: 1px solid var(--line);
+  min-width: 0;
 }
 
 .me-ops__filters label {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  flex: 1 1 8rem;
+  min-width: min(100%, 8rem);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -2678,8 +2880,8 @@ a.me-city-card:active {
 
 .me-ops__filters input[type="search"],
 .me-ops__filters select {
-  min-width: 10rem;
   width: 100%;
+  min-width: 0;
   color: var(--ink);
   text-transform: none;
   letter-spacing: normal;
@@ -2696,9 +2898,9 @@ a.me-city-card:active {
   background-color: #fff;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%2314201a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.5rem center;
+  background-position: right 0.65rem center;
   background-size: 0.75rem 0.5rem;
-  padding-inline: 0.5rem 1.75rem;
+  padding-inline: 0.5rem 1.85rem;
   cursor: pointer;
 }
 
@@ -2716,7 +2918,11 @@ a.me-city-card:active {
 }
 
 .me-ops__filter-clear {
+  display: inline-flex;
+  align-items: center;
   align-self: center;
+  min-height: 2.75rem;
+  padding-inline: 0.5rem;
   color: var(--ink-soft);
   font-size: 0.9rem;
 }
@@ -2727,6 +2933,7 @@ a.me-city-card:active {
   padding: 0;
   background: #fff;
   border: 1px solid var(--line);
+  min-width: 0;
 }
 
 .me-ops__scan li + li {
@@ -2739,6 +2946,7 @@ a.me-city-card:active {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+  min-width: 0;
 }
 
 .me-ops__scan-row:hover {
@@ -2756,6 +2964,7 @@ a.me-city-card:active {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.35rem 0.75rem;
+  min-width: 0;
 }
 
 .me-ops__scan-status {
@@ -2766,6 +2975,7 @@ a.me-city-card:active {
 .me-ops__scan-meta {
   margin-top: 0.2rem;
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
 }
 
 .me-ops__scan-foot {
@@ -2779,7 +2989,8 @@ a.me-city-card:active {
 }
 
 .me-ops--detail {
-  max-width: 42rem;
+  width: min(42rem, 100%);
+  max-width: 100%;
 }
 
 .me-ops__crumb {
@@ -2789,6 +3000,9 @@ a.me-city-card:active {
 
 .me-ops__crumb a {
   color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
 }
 
 .me-ops__panel {
@@ -2796,6 +3010,8 @@ a.me-city-card:active {
   padding: 0.9rem 1rem;
   background: #fff;
   border: 1px solid var(--line);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .me-ops__panel-title {
@@ -2817,6 +3033,11 @@ a.me-city-card:active {
   display: grid;
   gap: 0.75rem;
   margin: 0;
+  min-width: 0;
+}
+
+.me-ops__facts > * {
+  min-width: 0;
 }
 
 .me-ops__facts dt {
@@ -2828,19 +3049,24 @@ a.me-city-card:active {
 
 .me-ops__facts dd {
   margin: 0.15rem 0 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .me-ops__soft {
   color: var(--ink-soft);
   font-size: 0.9em;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .me-ops__consent {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  max-width: 16rem;
+  max-width: 100%;
   font-size: 0.9em;
+  min-width: 0;
 }
 
 .me-ops__consent-text {
@@ -2854,6 +3080,7 @@ a.me-city-card:active {
   flex-direction: column;
   gap: 0.35rem;
   max-width: 100%;
+  min-width: 0;
 }
 
 .me-ops__crm-label {
@@ -2865,23 +3092,37 @@ a.me-city-card:active {
 
 .me-ops__notes {
   width: 100%;
+  min-width: 0;
   resize: vertical;
   padding: 0.45rem 0.5rem;
   border: 1px solid var(--line);
   background: #fff;
+  overflow-wrap: anywhere;
+  scroll-margin-bottom: 6rem;
 }
 
 .me-ops__next {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.35rem 0.5rem;
   border: 1px solid var(--line);
   background: #fff;
+  overflow-wrap: anywhere;
+  scroll-margin-bottom: 6rem;
 }
 
 .me-ops__crm-actions {
+  position: sticky;
+  bottom: max(0.35rem, env(safe-area-inset-bottom, 0px));
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+  margin-top: 0.35rem;
+  padding: 0.55rem 0 0.15rem;
+  background: #fff;
+  border-top: 1px solid var(--line);
 }
 
 .me-ops__crm-actions button {
@@ -2913,12 +3154,18 @@ a.me-city-card:active {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  min-width: 0;
+}
+
+.me-ops__status select {
+  width: 100%;
 }
 
 .me-ops__history {
   list-style: none;
   margin: 0;
   padding: 0;
+  min-width: 0;
 }
 
 .me-ops__history-row + .me-ops__history-row {
@@ -2929,6 +3176,7 @@ a.me-city-card:active {
 
 .me-ops__history-change {
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
 }
 
 .me-ops__history-meta {
@@ -2946,6 +3194,7 @@ a.me-city-card:active {
   flex-direction: column;
   gap: 0.35rem;
   max-width: 100%;
+  min-width: 0;
 }
 
 .me-ops__handoff-head {
@@ -2953,22 +3202,26 @@ a.me-city-card:active {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.4rem 0.65rem;
+  min-width: 0;
 }
 
 .me-ops__handoff-address {
   margin: 0;
   font-size: 0.9rem;
   color: var(--ink-soft);
+  overflow-wrap: anywhere;
 }
 
 .me-ops__packet-chip {
   display: inline-block;
+  max-width: 100%;
   font-size: 0.75rem;
   letter-spacing: 0.02em;
   color: #6a3a12;
   background: #f7efe4;
   border: 1px solid #e4d3bc;
   padding: 0.1rem 0.45rem;
+  overflow-wrap: anywhere;
 }
 
 .me-ops__packet-chip--ready {
@@ -2977,6 +3230,7 @@ a.me-city-card:active {
   border-color: #a8bdd4;
 }
 
+/* Card stack for any ops <table> below 900 (live list is .me-ops__scan). */
 @media (max-width: 900px) {
   .me-ops table,
   .me-ops thead,
@@ -2986,6 +3240,7 @@ a.me-city-card:active {
   .me-ops tr {
     display: block;
     width: 100%;
+    max-width: 100%;
   }
 
   .me-ops thead {
@@ -3004,6 +3259,8 @@ a.me-city-card:active {
   .me-ops td {
     border: 0;
     padding: 0.2rem 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .me-ops td::before {
@@ -3117,6 +3374,8 @@ a.me-city-card:active {
   text-decoration: underline;
   text-underline-offset: 0.18em;
   border-radius: 0.25rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   transition:
     color var(--duration-color) ease,
     transform var(--duration-press) var(--ease-out);
@@ -3218,7 +3477,7 @@ a.me-city-card:active {
   display: inline-flex;
   align-items: center;
   max-width: 100%;
-  min-height: 2.5rem;
+  min-height: 2.75rem;
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--line);
   border-radius: 0.5rem;
@@ -3227,6 +3486,7 @@ a.me-city-card:active {
   text-decoration: none;
   white-space: normal;
   text-wrap: pretty;
+  overflow-wrap: anywhere;
   transition:
     border-color var(--duration-color) ease,
     color var(--duration-color) ease,

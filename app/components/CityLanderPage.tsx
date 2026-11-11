@@ -44,7 +44,7 @@ export function CityLanderPage({ lander }: CityLanderPageProps) {
                 {lander.answerFirst}
               </p>
               <div className="me-city-lander__cta">
-                <a className="me-btn me-btn--primary" href="#offer-form">
+                <a className="me-btn me-btn--primary" href="#city-offer">
                   Get a cash offer
                 </a>
               </div>
@@ -92,6 +92,7 @@ export function CityLanderPage({ lander }: CityLanderPageProps) {
         </section>
 
         <section
+          id="city-offer"
           className="me-city-lander__form"
           aria-labelledby="city-form-title"
         >
