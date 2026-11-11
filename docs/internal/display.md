@@ -18,7 +18,8 @@ Guest marketing must survive **229 × 350**, then **390, 744, 1032, 1280** with 
 
 - Shells use `--edge-inline` (gutter or safe-area, whichever is larger).
 - Sticky header keeps `env(safe-area-inset-top)`; footer keeps bottom safe-area in padding.
-- Header brand stays `white-space: nowrap`. Header actions use `flex: 1 1 12rem` so CTAs wrap under the brand when the row cannot hold both.
+- Header brand stays `white-space: nowrap`. Below **744**, chrome is brand + menu; nav, call, and offer live in the open menu panel. From **744**, nav and actions sit inline; the menu toggle is hidden.
+- Hero and offer CTA rows stack full width below **744**; row wrap from **744**.
 - `.me-btn` labels stay `white-space: nowrap` so CTAs stack as whole controls, not crushed word wraps.
 - City leaves (`CityLanderPage`, every `/sell-house-fast-*`): answer + footprint center at `--reading-measure`; FAQ + related center at `--content-standard`; offer form keeps full `--content-wide` shell for the split. Same CSS cascade for all city entries.
 - Do not put `overflow-x: clip` or `scrollbar-gutter` on `html` / `body` (forge DISPLAY_GATES §1c). Guard: `lib/guest-display-policy.test.ts`.

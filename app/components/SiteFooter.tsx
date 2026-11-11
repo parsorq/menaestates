@@ -17,7 +17,7 @@ export function SiteFooter() {
   const howWeBuyHref = getHowWeBuyHref();
   const aboutHref = getAboutHref();
   const offerHref = getGetACashOfferHref();
-  const { nap, buyCitiesLabel } = GUEST_PROOF;
+  const { nap } = GUEST_PROOF;
 
   return (
     <footer className="me-site-footer">
@@ -27,11 +27,7 @@ export function SiteFooter() {
             <strong>Mena Estates</strong>
           </Link>
           <p className="vc-reading-measure">
-            Hector Mena leads our team. We&apos;ve bought houses for cash in{" "}
-            {buyCitiesLabel}. Those cities are the core. Outside them, we still
-            buy when the house and the numbers fit. After you send the form, we
-            call you, walk through the numbers and your timing, and answer your
-            questions before anything moves forward.
+            Hector Mena leads our team. We buy houses for cash in the East Bay.
           </p>
           <p className="vc-reading-measure">
             <a href={`tel:${nap.phoneTel}`}>{nap.phoneDisplay}</a>

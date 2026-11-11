@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CITY_LANDER_PATHS } from "@/lib/landers";
 
 export type CityTapeItem = {
@@ -11,6 +12,12 @@ type CityTapeProps = {
   cities: readonly CityTapeItem[];
 };
 
+/** Matches tape CSS: ~1.7 across under 744px, ~4.25 across on larger. */
+export const CITY_TAPE_IMAGE_SIZES = "(max-width: 743px) 60vw, 24vw";
+
+/** First N primary tiles start immediately; clone stays lazy/low. */
+export const CITY_TAPE_EAGER_COUNT = 2;
+
 function CityTapeSet({
   cities,
   clone = false,
@@ -23,17 +30,20 @@ function CityTapeSet({
       className="me-city-tape__set"
       {...(clone ? { inert: true, "aria-hidden": true } : {})}
     >
-      {cities.map((city) => {
+      {cities.map((city, index) => {
         const href = CITY_LANDER_PATHS[city.name];
+        const eager = !clone && index < CITY_TAPE_EAGER_COUNT;
         const body = (
           <>
-            <img
+            <Image
               className="me-city-card__image"
               src={city.image}
               alt={clone ? "" : city.alt}
-              width={640}
-              height={400}
-              loading="lazy"
+              fill
+              sizes={CITY_TAPE_IMAGE_SIZES}
+              quality={75}
+              loading={eager ? "eager" : "lazy"}
+              fetchPriority={eager ? "high" : clone ? "low" : "auto"}
               decoding="async"
               style={{ objectPosition: city.objectPosition }}
             />

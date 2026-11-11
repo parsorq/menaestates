@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/app/components/JsonLd";
 import { LeadForm } from "@/app/components/LeadForm";
@@ -86,6 +87,13 @@ const CITY_CARD_MEDIA: CityCardMedia[] = [
 
 const MEDIA_BY_SLUG = new Map(CITY_CARD_MEDIA.map((row) => [row.slug, row]));
 
+/** Matches hub grid: 1 col / 2 col / 4 col. */
+const CITY_HUB_IMAGE_SIZES =
+  "(max-width: 743px) 100vw, (max-width: 1031px) 50vw, 25vw";
+
+/** First county row starts immediately; later counties stay lazy. */
+const CITY_HUB_EAGER_COUNT = 4;
+
 const COUNTY_ORDER: LeadCounty[] = ["Alameda", "San Joaquin"];
 
 function citiesByCounty(county: LeadCounty): LanderDefinition[] {
@@ -139,24 +147,30 @@ export default function CitiesHubPage() {
                   we will talk it through on the call.
                 </p>
                 <ul className="me-cities-hub__grid">
-                  {cities.map((lander) => {
+                  {cities.map((lander, index) => {
                     const media = MEDIA_BY_SLUG.get(lander.slug);
                     const name =
                       media?.name ??
                       lander.asideTitle.split("·")[0]?.trim() ??
                       lander.slug;
+                    const eager =
+                      county === COUNTY_ORDER[0] && index < CITY_HUB_EAGER_COUNT;
                     return (
                       <li key={lander.slug} className="me-cities-hub__item">
                         <a className="me-cities-hub__card" href={lander.path}>
                           {media ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
+                            <Image
                               className="me-cities-hub__card-image"
                               src={media.image}
                               alt={media.alt}
                               width={640}
-                              height={400}
-                              loading="lazy"
+                              height={512}
+                              sizes={CITY_HUB_IMAGE_SIZES}
+                              quality={75}
+                              loading={eager ? "eager" : "lazy"}
+                              fetchPriority={
+                                eager && index === 0 ? "high" : "auto"
+                              }
                               decoding="async"
                               style={{ objectPosition: media.objectPosition }}
                             />

@@ -25,9 +25,16 @@ describe("guest display policy", () => {
     expect(bodyBlock?.[0] ?? "").not.toMatch(/scrollbar-gutter/);
   });
 
-  it("keeps header brand nowrap and header actions wrap bay", () => {
+  it("keeps compact phone header and stacked CTAs below 744", () => {
     expect(css).toMatch(/\.me-brand\s*\{[^}]*white-space:\s*nowrap/s);
-    expect(css).toMatch(/\.me-header-actions\s*\{[^}]*flex:\s*1\s+1\s+12rem/s);
+    expect(css).toMatch(/\.me-header-menu-toggle\s*\{/s);
+    expect(css).toMatch(
+      /\.me-site-header\[data-menu-open="true"\]\s*\.me-header-panel\s*\{[^}]*display:\s*flex/s,
+    );
+    expect(css).toMatch(/\.me-header-toolbar\s*\{[^}]*display:\s*none/s);
+    expect(css).toMatch(
+      /\.me-home-hero__cta\s*\{[^}]*flex-direction:\s*column/s,
+    );
     expect(css).toMatch(/\.me-btn\s*\{[^}]*white-space:\s*nowrap/s);
   });
 
